@@ -51,6 +51,20 @@ export type Stat = {
   label: string;
 };
 
+export type DigitalExperiences = {
+  /** Newlines are preserved on wide screens. */
+  heading: string;
+  linkLabel: string;
+  linkHref: string;
+};
+
+/** Fallback copy, used when the API is unreachable. */
+export const digitalExperiences: DigitalExperiences = {
+  heading: "Digital experiences built\nfor modern business.",
+  linkLabel: "Get a free consultation",
+  linkHref: "/contact",
+};
+
 export const quickStats: Stat[] = [
   { value: "10+", label: "projects and concepts" },
   { value: "5+", label: "industries served" },
@@ -63,6 +77,23 @@ export const quickStats: Stat[] = [
 export type Problem = {
   title: string;
   description: string;
+};
+
+export type YourIdea = {
+  /** Newlines are preserved on wide screens. */
+  heading: string;
+  closingText: string;
+  ctaLabel: string;
+  ctaHref: string;
+};
+
+/** Fallback copy, used when the API is unreachable. */
+export const yourIdea: YourIdea = {
+  heading: "Your business deserves more\nthan just a social media page.",
+  closingText:
+    "We turn those problems into a simple digital experience that helps customers discover, understand and contact your business.",
+  ctaLabel: "Get a free consultation",
+  ctaHref: "/contact",
 };
 
 export const problems: Problem[] = [
@@ -186,6 +217,23 @@ export const themes = {
     ...brandGreen,
   },
 } satisfies Record<string, MockupTheme>;
+
+export type IndustriesSectionCopy = {
+  heading: string;
+  linkLabel: string;
+  linkHref: string;
+  footnoteLabel: string;
+  footnoteItems: string[];
+};
+
+/** Fallback copy, used when the API is unreachable. */
+export const industriesSection: IndustriesSectionCopy = {
+  heading: "Built for businesses like yours.",
+  linkLabel: "Start a project",
+  linkHref: "/contact",
+  footnoteLabel: "Every demo we build is",
+  footnoteItems: heroHighlights,
+};
 
 export type Industry = {
   name: string;

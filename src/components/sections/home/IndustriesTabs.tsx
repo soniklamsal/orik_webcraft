@@ -5,18 +5,19 @@ import Link from "next/link";
 import { useState } from "react";
 import { PillTabs } from "@/components/ui/PillTabs";
 import { MockupStage } from "@/components/ui/SiteMockup";
-import { heroHighlights, industrySlug, type Industry } from "@/data/home";
+import { industrySlug, type IndustriesSectionCopy, type Industry } from "@/data/home";
 import { ShowcaseLayout } from "./ShowcaseLayout";
 
 type IndustriesTabsProps = {
   industries: Industry[];
+  copy: IndustriesSectionCopy;
   titleAs?: "h1" | "h2";
   className?: string;
   /** Slug of the tab to open, e.g. "real-estate" from a mega-menu link. */
   initialSlug?: string;
 };
 
-export function IndustriesTabs({ industries, titleAs = "h2", className = "mt-15", initialSlug }: IndustriesTabsProps) {
+export function IndustriesTabs({ industries, copy, titleAs = "h2", className = "mt-15", initialSlug }: IndustriesTabsProps) {
   // findIndex returns -1 for an unknown slug, which falls back to the first tab.
   const [activeIndex, setActiveIndex] = useState(() =>
     Math.max(
@@ -30,7 +31,7 @@ export function IndustriesTabs({ industries, titleAs = "h2", className = "mt-15"
     <ShowcaseLayout
       id="industries"
       headingId="industries-heading"
-      title="Built for businesses like yours."
+      title={copy.heading}
       titleAs={titleAs}
       className={className}
       panelId="industries-panel"
@@ -56,12 +57,12 @@ export function IndustriesTabs({ industries, titleAs = "h2", className = "mt-15"
               </li>
             ))}
           </ul>
-          <Link href="/contact" className="mt-8.25 ml-1.75 block w-fit text-[18px] leading-6 text-primary">
-            Start a project<span className="sr-only"> for {industry.name}</span> →
+          <Link href={copy.linkHref} className="mt-8.25 ml-1.75 block w-fit text-[18px] leading-6 text-primary">
+            {copy.linkLabel}<span className="sr-only"> for {industry.name}</span> →
           </Link>
           <div className="mt-12 ml-1">
-            <p className="text-[18px] leading-6 tracking-[-0.25px] text-navy/60">Every demo we build is</p>
-            <p className="mt-3.5 text-[16px] leading-6 text-navy">{heroHighlights.join(" · ")}</p>
+            <p className="text-[18px] leading-6 tracking-[-0.25px] text-navy/60">{copy.footnoteLabel}</p>
+            <p className="mt-3.5 text-[16px] leading-6 text-navy">{copy.footnoteItems.join(" · ")}</p>
           </div>
         </div>
       }

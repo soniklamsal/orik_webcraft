@@ -5,7 +5,7 @@ import { getContent } from "@/lib/content";
 const textWidths = [314.6, 302.4, 311.4];
 
 export async function ProblemSolution() {
-  const { problems } = await getContent();
+  const { problems, yourIdea } = await getContent();
 
   return (
     <section aria-labelledby="problem-heading" className="mt-24 px-4 md:px-10 xl:px-0">
@@ -21,7 +21,8 @@ export async function ProblemSolution() {
           id="problem-heading"
           className="relative pt-7 text-center font-inter text-[48px] leading-14 font-bold tracking-[-1px] text-navy xl:whitespace-pre"
         >
-          {"\nYour business deserves more\nthan just a social media page."}
+          {/* The leading newline keeps the sticker clear of the first line. */}
+          {`\n${yourIdea.heading}`}
         </h2>
 
         <div className="mt-3 grid gap-5 xl:grid-cols-3 xl:px-2.5">
@@ -36,13 +37,12 @@ export async function ProblemSolution() {
         </div>
 
         <p className="relative mx-auto max-w-190 px-6 text-center text-[18px] leading-6 text-navy/60">
-          We turn those problems into a simple digital experience that helps customers discover, understand and contact
-          your business.
+          {yourIdea.closingText}
         </p>
       </div>
 
       <div className="mt-7 flex justify-center">
-        <ButtonLink href="/contact">Get a free consultation</ButtonLink>
+        <ButtonLink href={yourIdea.ctaHref}>{yourIdea.ctaLabel}</ButtonLink>
       </div>
     </section>
   );

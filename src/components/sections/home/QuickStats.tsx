@@ -3,7 +3,7 @@ import { CountUp } from "@/components/ui/CountUp";
 import { getContent } from "@/lib/content";
 
 export async function QuickStats() {
-  const { stats: quickStats } = await getContent();
+  const { stats: quickStats, digitalExperiences } = await getContent();
 
   return (
     <section aria-labelledby="stats-heading" className="mt-15 py-15">
@@ -13,13 +13,13 @@ export async function QuickStats() {
             id="stats-heading"
             className="font-inter text-[48px] leading-14 font-bold tracking-[-1px] text-navy xl:whitespace-pre"
           >
-            {"Digital experiences built\nfor modern business."}
+            {digitalExperiences.heading}
           </h2>
           <Link
-            href="/contact"
+            href={digitalExperiences.linkHref}
             className="mx-auto mt-4.25 block h-5.75 w-fit border-b border-navy font-inter text-[18px] leading-6 text-navy"
           >
-            <span className="relative -top-px">Get a free consultation</span>
+            <span className="relative -top-px">{digitalExperiences.linkLabel}</span>
           </Link>
 
           <dl className="mt-16 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-4">

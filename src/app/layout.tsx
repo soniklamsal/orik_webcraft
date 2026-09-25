@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { getContent } from "@/lib/content";
+import { SITE_URL } from "@/lib/site-url";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,6 +28,16 @@ const manrope = Manrope({
 export async function generateMetadata(): Promise<Metadata> {
   const { site } = await getContent();
   return {
+    // Makes canonical and Open Graph URLs absolute against the live domain.
+    metadataBase: new URL(SITE_URL),
+    alternates: { canonical: "/" },
+    openGraph: {
+      type: "website",
+      siteName: site.name,
+      url: "/",
+      title: `${site.name} | Websites that work for your business`,
+      description: site.description,
+    },
     title: {
       default: `${site.name} | Websites that work for your business`,
       template: `%s | ${site.name}`,

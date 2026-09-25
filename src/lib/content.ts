@@ -8,9 +8,11 @@
  */
 
 import {
+  digitalExperiences,
   faqs,
   hero,
   industries,
+  industriesSection,
   packages,
   problems,
   processSteps,
@@ -19,8 +21,11 @@ import {
   team,
   testimonials,
   themes,
+  yourIdea,
+  type DigitalExperiences,
   type FaqItem,
   type Hero,
+  type IndustriesSectionCopy,
   type Industry,
   type MockupTheme,
   type Problem,
@@ -30,12 +35,16 @@ import {
   type TeamMember,
   type Testimonial,
   type WebsitePackage,
+  type YourIdea,
 } from "@/data/home";
 import { contactDetails, siteDescription, siteName, socialLinks, type ContactDetails, type SocialLink } from "@/data/site";
 
 export type SiteContent = {
   site: { name: string; description: string; contact: ContactDetails; socials: SocialLink[] };
   hero: Hero;
+  yourIdea: YourIdea;
+  digitalExperiences: DigitalExperiences;
+  industriesSection: IndustriesSectionCopy;
   stats: Stat[];
   problems: Problem[];
   industries: Industry[];
@@ -50,6 +59,9 @@ export type SiteContent = {
 const FALLBACK: SiteContent = {
   site: { name: siteName, description: siteDescription, contact: contactDetails, socials: socialLinks },
   hero,
+  yourIdea,
+  digitalExperiences,
+  industriesSection,
   stats: quickStats,
   problems,
   industries,
@@ -68,7 +80,13 @@ const REVALIDATE_SECONDS = 300;
 
 type ThemeKey = keyof typeof themes;
 
-function resolveTheme(key: unknown): MockupTheme {
+/**
+ * Templates come from the API as whole objects. A row with no template selected
+ * falls back to a bundled design, matched on key where possible.
+ */
+function resolveTheme(template: MockupTheme | undefined | null): MockupTheme {
+  if (template && template.name) return template;
+  const key = (template as { key?: string } | null | undefined)?.key;
   return themes[key as ThemeKey] ?? themes.corporate;
 }
 
@@ -77,12 +95,15 @@ function list<T>(value: unknown, fallback: T[]): T[] {
   return Array.isArray(value) ? (value as T[]) : fallback;
 }
 
-type ApiIndustry = Omit<Industry, "theme"> & { themeKey: string };
-type ApiProject = Omit<Project, "theme"> & { themeKey: string };
+type ApiIndustry = Omit<Industry, "theme"> & { template?: MockupTheme };
+type ApiProject = Omit<Project, "theme"> & { template?: MockupTheme };
 
 function shape(data: Record<string, unknown>): SiteContent {
   const site = (data.site ?? {}) as Partial<SiteContent["site"]>;
   const apiHero = (data.hero ?? {}) as Partial<Hero>;
+  const apiIdea = (data.yourIdea ?? {}) as Partial<YourIdea>;
+  const apiDigital = (data.digitalExperiences ?? {}) as Partial<DigitalExperiences>;
+  const apiIndustries = (data.industriesSection ?? {}) as Partial<IndustriesSectionCopy>;
 
   return {
     site: {
@@ -103,13 +124,33 @@ function shape(data: Record<string, unknown>): SiteContent {
       imageAlt: apiHero.imageAlt || undefined,
       badges: apiHero.badges ?? FALLBACK.hero.badges,
     },
+    yourIdea: {
+      heading: apiIdea.heading || FALLBACK.yourIdea.heading,
+      closingText: apiIdea.closingText || FALLBACK.yourIdea.closingText,
+      ctaLabel: apiIdea.ctaLabel || FALLBACK.yourIdea.ctaLabel,
+      ctaHref: apiIdea.ctaHref || FALLBACK.yourIdea.ctaHref,
+    },
+    digitalExperiences: {
+      heading: apiDigital.heading || FALLBACK.digitalExperiences.heading,
+      linkLabel: apiDigital.linkLabel || FALLBACK.digitalExperiences.linkLabel,
+      linkHref: apiDigital.linkHref || FALLBACK.digitalExperiences.linkHref,
+    },
+    industriesSection: {
+      heading: apiIndustries.heading || FALLBACK.industriesSection.heading,
+      linkLabel: apiIndustries.linkLabel || FALLBACK.industriesSection.linkLabel,
+      linkHref: apiIndustries.linkHref || FALLBACK.industriesSection.linkHref,
+      footnoteLabel: apiIndustries.footnoteLabel || FALLBACK.industriesSection.footnoteLabel,
+      footnoteItems: apiIndustries.footnoteItems?.length
+        ? apiIndustries.footnoteItems
+        : FALLBACK.industriesSection.footnoteItems,
+    },
     stats: list<Stat>(data.stats, FALLBACK.stats),
     problems: list<Problem>(data.problems, FALLBACK.problems),
     industries: list<ApiIndustry>(data.industries, []).length
-      ? list<ApiIndustry>(data.industries, []).map(({ themeKey, ...rest }) => ({ ...rest, theme: resolveTheme(themeKey) }))
+      ? list<ApiIndustry>(data.industries, []).map(({ template, ...rest }) => ({ ...rest, theme: resolveTheme(template) }))
       : FALLBACK.industries,
     projects: list<ApiProject>(data.projects, []).length
-      ? list<ApiProject>(data.projects, []).map(({ themeKey, ...rest }) => ({ ...rest, theme: resolveTheme(themeKey) }))
+      ? list<ApiProject>(data.projects, []).map(({ template, ...rest }) => ({ ...rest, theme: resolveTheme(template) }))
       : FALLBACK.projects,
     processSteps: list<ProcessStep>(data.processSteps, FALLBACK.processSteps),
     packages: list<WebsitePackage>(data.packages, FALLBACK.packages),

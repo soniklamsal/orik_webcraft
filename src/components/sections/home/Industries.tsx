@@ -10,6 +10,6 @@ type IndustriesProps = {
 
 /** Server wrapper: fetches the copy, then hands it to the client-side tabs. */
 export async function Industries(props: IndustriesProps) {
-  const { industries } = await getContent();
-  return <IndustriesTabs industries={industries} {...props} />;
+  const { industries, industriesSection } = await getContent();
+  return <IndustriesTabs industries={industries} copy={industriesSection} {...props} />;
 }
