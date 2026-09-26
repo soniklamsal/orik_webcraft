@@ -1,11 +1,10 @@
 import Link from "next/link";
 import { WhyOrik } from "@/components/sections/home/WhyOrik";
 import { SocialIcon } from "@/components/ui/SocialIcon";
-import { footerNav } from "@/data/navigation";
 import { requireContent } from "@/lib/content";
 
 export async function Footer() {
-  const { site } = await requireContent();
+  const { site, footerBottom } = await requireContent();
   const { name: siteName, description: siteDescription, socials: socialLinks } = site;
   const { email, phone, location } = site.contact;
   const year = new Date().getFullYear();
@@ -17,9 +16,9 @@ export async function Footer() {
       <footer className="bg-surface">
         <div className="mx-auto max-w-5xl px-4 py-10 text-navy sm:flex sm:justify-between sm:px-6">
           <div className="border-b border-navy/10 p-5 text-center sm:w-2/12 sm:border-r sm:border-b-0 sm:text-left">
-            <p className="text-sm font-bold text-primary uppercase">Menu</p>
+            <p className="text-sm font-bold text-primary uppercase">{footerBottom.menuLabel}</p>
             <ul>
-              {footerNav.map((item) => (
+              {footerBottom.menu.map((item) => (
                 <li key={item.label} className="my-2">
                   <Link href={item.href} className="hover:text-primary">
                     {item.label}
@@ -35,11 +34,11 @@ export async function Footer() {
           </div>
 
           <div className="p-5 text-center sm:w-3/12 sm:text-left">
-            <p className="text-sm font-bold text-primary uppercase">Contact Us</p>
+            <p className="text-sm font-bold text-primary uppercase">{footerBottom.contactLabel}</p>
             <ul>
               <li className="my-2">
-                <Link href="/contact" className="hover:text-primary">
-                  Send us an enquiry
+                <Link href={footerBottom.enquiryHref} className="hover:text-primary">
+                  {footerBottom.enquiryLabel}
                 </Link>
               </li>
               {email && (
@@ -70,7 +69,7 @@ export async function Footer() {
             ))}
           </div>
           <p className="my-5">
-            © Copyright {year} {siteName}. All Rights Reserved.
+            © Copyright {year} {siteName}. {footerBottom.copyrightNote}
           </p>
         </div>
       </footer>

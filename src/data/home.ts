@@ -243,6 +243,21 @@ export type FooterTop = {
   right: FooterTopPanel & { eyebrow: string };
 };
 
+export type FooterMenuLink = {
+  label: string;
+  href: string;
+};
+
+export type FooterBottom = {
+  menuLabel: string;
+  menu: FooterMenuLink[];
+  contactLabel: string;
+  enquiryLabel: string;
+  enquiryHref: string;
+  /** Follows the year and the site name in the copyright line. */
+  copyrightNote: string;
+};
+
 export type IndustriesSectionCopy = {
   heading: string;
   linkLabel: string;
