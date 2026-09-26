@@ -243,6 +243,18 @@ export type FooterTop = {
   right: FooterTopPanel & { eyebrow: string };
 };
 
+export type PopupCopy = {
+  isEnabled: boolean;
+  eyebrow: string;
+  heading: string;
+  body: string;
+  emailLabel: string;
+  buttonLabel: string;
+  successMessage: string;
+  /** How long to wait before showing it. */
+  delaySeconds: number;
+};
+
 export type FooterMenuLink = {
   label: string;
   href: string;

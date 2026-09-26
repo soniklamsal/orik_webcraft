@@ -3,6 +3,7 @@ import { Inter, Manrope } from "next/font/google";
 import localFont from "next/font/local";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
+import { Popup } from "@/components/layout/Popup";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
 import { SocialDock } from "@/components/layout/SocialDock";
 import { Suspense } from "react";
@@ -61,6 +62,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {/* No fallback: the dock is an extra, not part of the page shell. */}
         <Suspense fallback={null}>
           <SocialDock />
+        </Suspense>
+        <Suspense fallback={null}>
+          <Popup />
         </Suspense>
       </body>
     </html>

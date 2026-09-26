@@ -16,6 +16,7 @@ import type {
   IndustriesSectionCopy,
   Industry,
   MockupTheme,
+  PopupCopy,
   Problem,
   ProcessStep,
   Project,
@@ -35,6 +36,7 @@ export type SiteContent = {
   industriesSection: IndustriesSectionCopy;
   footerTop: FooterTop;
   footerBottom: FooterBottom;
+  popup: PopupCopy;
   stats: Stat[];
   problems: Problem[];
   industries: Industry[];
