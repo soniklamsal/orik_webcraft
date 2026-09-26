@@ -74,14 +74,20 @@ export const quickStats: Stat[] = [
   { value: "6", label: "digital services under one roof" },
 ];
 
+/** Chosen per card in the admin; mapped to a lucide icon in ProblemSolution. */
+export type ProblemIcon = "search-x" | "history" | "message-circle-off" | "monitor-x" | "hourglass" | "triangle-alert";
+
 export type Problem = {
   title: string;
   description: string;
+  icon: ProblemIcon;
 };
 
 export type YourIdea = {
   /** Newlines are preserved on wide screens. */
   heading: string;
+  /** Words from the heading to mark in yellow; empty means no highlight. */
+  headingHighlight: string;
   closingText: string;
   ctaLabel: string;
   ctaHref: string;
@@ -90,6 +96,7 @@ export type YourIdea = {
 /** Fallback copy, used when the API is unreachable. */
 export const yourIdea: YourIdea = {
   heading: "Your business deserves more\nthan just a social media page.",
+  headingHighlight: "social media page.",
   closingText:
     "We turn those problems into a simple digital experience that helps customers discover, understand and contact your business.",
   ctaLabel: "Get a free consultation",
@@ -99,15 +106,18 @@ export const yourIdea: YourIdea = {
 export const problems: Problem[] = [
   {
     title: "No website",
+    icon: "search-x",
     description:
       "Customers search online first. Without a website they can't find you, so they find a competitor instead.",
   },
   {
     title: "Outdated website",
+    icon: "history",
     description: "A slow or old-looking site makes a great business look unreliable, especially on a phone.",
   },
   {
     title: "Difficult to contact",
+    icon: "message-circle-off",
     description: "If people can't quickly call, message or send an enquiry, they leave before they ever reach you.",
   },
 ];
