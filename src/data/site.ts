@@ -12,7 +12,7 @@ export type ContactDetails = {
 // Fill these in to show them in the footer; empty fields stay hidden.
 export const contactDetails: ContactDetails = {};
 
-export type SocialPlatform = "twitter" | "facebook" | "youtube" | "linkedin" | "medium";
+export type SocialPlatform = "whatsapp" | "instagram" | "facebook" | "linkedin" | "twitter" | "youtube" | "medium";
 
 export type SocialLink = {
   platform: SocialPlatform;
