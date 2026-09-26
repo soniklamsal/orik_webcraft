@@ -66,8 +66,8 @@ export async function ProblemSolution() {
                 key={problem.title}
                 className="group rounded-[8px] bg-surface p-7 transition duration-200 hover:-translate-y-1 hover:bg-white hover:shadow-[0_18px_40px_-24px_rgba(5,0,56,0.45)] motion-reduce:transform-none motion-reduce:transition-none"
               >
-                <span className="grid size-12 place-items-center rounded-[8px] bg-white text-navy/70 transition-colors group-hover:bg-tab-active group-hover:text-primary">
-                  <Icon aria-hidden="true" className="size-6" strokeWidth={1.75} />
+                <span className="grid size-16 place-items-center rounded-full bg-white text-navy/70 ring-1 ring-navy/5 transition duration-200 group-hover:scale-105 group-hover:bg-tab-active group-hover:text-primary group-hover:ring-primary/20 motion-reduce:transform-none motion-reduce:transition-none">
+                  <Icon aria-hidden="true" className="size-8" strokeWidth={1.6} />
                 </span>
                 <h3 className="mt-6 font-inter text-[24px] leading-7 font-bold tracking-[-0.5px] text-navy">
                   {problem.title}
