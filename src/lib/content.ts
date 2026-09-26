@@ -9,6 +9,7 @@
 
 import type {
   DigitalExperiences,
+  FooterTop,
   FaqItem,
   Hero,
   IndustriesSectionCopy,
@@ -31,6 +32,7 @@ export type SiteContent = {
   yourIdea: YourIdea;
   digitalExperiences: DigitalExperiences;
   industriesSection: IndustriesSectionCopy;
+  footerTop: FooterTop;
   stats: Stat[];
   problems: Problem[];
   industries: Industry[];

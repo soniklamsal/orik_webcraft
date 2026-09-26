@@ -218,6 +218,21 @@ export const themes = {
   },
 } satisfies Record<string, MockupTheme>;
 
+export type FooterTopPanel = {
+  /** Newlines are preserved on wide screens. */
+  heading: string;
+  ctaLabel: string;
+  ctaHref: string;
+  /** Absolute URL of an uploaded image; empty means use the bundled one. */
+  image?: string;
+  imageAlt?: string;
+};
+
+export type FooterTop = {
+  left: FooterTopPanel;
+  right: FooterTopPanel & { eyebrow: string };
+};
+
 export type IndustriesSectionCopy = {
   heading: string;
   linkLabel: string;
