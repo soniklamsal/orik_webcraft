@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { ScrollToTop } from "@/components/layout/ScrollToTop";
+import { SocialDock } from "@/components/layout/SocialDock";
 import { Suspense } from "react";
 import { FooterSkeleton } from "@/components/ui/Skeleton";
 import { siteDescription, siteName } from "@/data/site";
@@ -56,6 +57,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         {children}
         <Suspense fallback={<FooterSkeleton />}>
           <Footer />
+        </Suspense>
+        {/* No fallback: the dock is an extra, not part of the page shell. */}
+        <Suspense fallback={null}>
+          <SocialDock />
         </Suspense>
       </body>
     </html>
