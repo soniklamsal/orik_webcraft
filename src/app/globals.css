@@ -5,10 +5,8 @@
   --font-arrow: var(--font-inter-arrow), var(--font-inter-sans), sans-serif;
   --font-manrope: var(--font-manrope-sans), sans-serif;
 }
-
 @theme {
   --font-helvetica: Helvetica, Arial, sans-serif;
-
   --color-navy: #050038;
   --color-primary: #008454;
   --color-primary-dark: #00683e;
@@ -19,10 +17,8 @@
   --color-tab-active: #f0f8f5;
   --color-accent-yellow: #ffd02f;
   --color-uic-muted: #858a99;
-
   --animate-float: float 6s ease-in-out infinite;
   --animate-mega-in: mega-in 160ms ease-out;
-
   @keyframes mega-in {
     from {
       opacity: 0;
@@ -33,7 +29,6 @@
       transform: translateY(0);
     }
   }
-
   @keyframes float {
     0%,
     100% {
@@ -44,7 +39,6 @@
     }
   }
 }
-
 @media (prefers-reduced-motion: no-preference) {
   html {
     scroll-behavior: smooth;

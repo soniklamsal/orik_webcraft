@@ -1,4 +1,4 @@
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 import { IndustriesTabs } from "./IndustriesTabs";
 
 type IndustriesProps = {
@@ -10,6 +10,6 @@ type IndustriesProps = {
 
 /** Server wrapper: fetches the copy, then hands it to the client-side tabs. */
 export async function Industries(props: IndustriesProps) {
-  const { industries, industriesSection } = await getContent();
+  const { industries, industriesSection } = await requireContent();
   return <IndustriesTabs industries={industries} copy={industriesSection} {...props} />;
 }

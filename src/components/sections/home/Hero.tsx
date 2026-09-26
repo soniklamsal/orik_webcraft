@@ -1,7 +1,7 @@
 import { MessageCircle, Search, Smartphone, Target, TrendingUp, Zap } from "lucide-react";
 import Image from "next/image";
 import { heroReviews, type Hero as HeroContent, type HeroBadgeIcon } from "@/data/home";
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 import { ReviewRating } from "./ReviewRating";
 
 const cardIcons = [Smartphone, Zap, Target];
@@ -49,7 +49,7 @@ function QualitiesCard({ hero, className = "" }: { hero: HeroContent; className?
 }
 
 export async function Hero() {
-  const { hero } = await getContent();
+  const { hero } = await requireContent();
   const badges = hero.badges.slice(0, badgePlacements.length);
 
   return (

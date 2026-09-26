@@ -1,7 +1,7 @@
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 
 export async function Testimonials() {
-  const { testimonials } = await getContent();
+  const { testimonials } = await requireContent();
 
   if (testimonials.length === 0) return null;
 

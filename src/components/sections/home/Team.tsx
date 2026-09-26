@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { socialLabel, TeamSocialIcon } from "@/components/ui/TeamSocialIcon";
 import type { TeamMember } from "@/data/home";
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 
 type TeamProps = {
   titleAs?: "h1" | "h2";
@@ -72,7 +72,7 @@ function MemberCard({ member }: { member: TeamMember }) {
 }
 
 export async function Team({ titleAs: Title = "h2", className = "mt-30" }: TeamProps) {
-  const { team } = await getContent();
+  const { team } = await requireContent();
 
   return (
     <section id="team" aria-labelledby="team-heading" className={`scroll-mt-6 pb-10 ${className}`}>

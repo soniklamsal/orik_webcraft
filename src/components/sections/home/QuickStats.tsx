@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { CountUp } from "@/components/ui/CountUp";
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 
 export async function QuickStats() {
-  const { stats: quickStats, digitalExperiences } = await getContent();
+  const { stats: quickStats, digitalExperiences } = await requireContent();
 
   return (
     <section aria-labelledby="stats-heading" className="mt-15 py-15">

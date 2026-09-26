@@ -1,5 +1,5 @@
 import { ButtonLink } from "@/components/ui/Button";
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 import { ContactForm } from "./ContactForm";
 
 type ContactSectionProps = {
@@ -8,7 +8,7 @@ type ContactSectionProps = {
 };
 
 export async function ContactSection({ titleAs: Title = "h2", className = "mt-30" }: ContactSectionProps) {
-  const { packages } = await getContent();
+  const { packages } = await requireContent();
 
   return (
     <section

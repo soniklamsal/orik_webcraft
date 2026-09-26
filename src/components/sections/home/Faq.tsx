@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 
 type FaqProps = {
   titleAs?: "h1" | "h2";
@@ -7,7 +7,7 @@ type FaqProps = {
 };
 
 export async function Faq({ titleAs: Title = "h2", className = "mt-30" }: FaqProps) {
-  const { faqs } = await getContent();
+  const { faqs } = await requireContent();
 
   return (
     <section id="faq" aria-labelledby="faq-heading" className={`mx-auto max-w-220 scroll-mt-6 px-4 md:px-10 ${className}`}>

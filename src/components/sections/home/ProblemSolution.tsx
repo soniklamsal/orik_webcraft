@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 
 const textWidths = [314.6, 302.4, 311.4];
 
 export async function ProblemSolution() {
-  const { problems, yourIdea } = await getContent();
+  const { problems, yourIdea } = await requireContent();
 
   return (
     <section aria-labelledby="problem-heading" className="mt-24 px-4 md:px-10 xl:px-0">

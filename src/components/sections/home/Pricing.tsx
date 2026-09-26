@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 
 type PricingProps = {
   titleAs?: "h1" | "h2";
@@ -8,7 +8,7 @@ type PricingProps = {
 };
 
 export async function Pricing({ titleAs: Title = "h2", className = "mt-15" }: PricingProps) {
-  const { packages } = await getContent();
+  const { packages } = await requireContent();
 
   return (
     <section

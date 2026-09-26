@@ -1,43 +1,29 @@
 /**
- * Site copy, served from the Django admin.
+ * Site copy, served live from the Django admin.
  *
- * The data in `src/data/home.ts` and `src/data/site.ts` stays in the bundle as
- * the fallback: if the API is unreachable the site still renders its current
- * copy rather than going blank. Mockup themes and navigation remain in code;
- * the API only names a theme by key.
+ * There is deliberately no bundled fallback: if the API cannot be reached the
+ * site says so, with the reason, rather than quietly serving stale copy that
+ * hides a broken backend. Mockup designs still arrive as whole Template
+ * objects from the API.
  */
 
-import {
-  digitalExperiences,
-  faqs,
-  hero,
-  industries,
-  industriesSection,
-  packages,
-  problems,
-  processSteps,
-  projects,
-  quickStats,
-  team,
-  testimonials,
-  themes,
-  yourIdea,
-  type DigitalExperiences,
-  type FaqItem,
-  type Hero,
-  type IndustriesSectionCopy,
-  type Industry,
-  type MockupTheme,
-  type Problem,
-  type ProcessStep,
-  type Project,
-  type Stat,
-  type TeamMember,
-  type Testimonial,
-  type WebsitePackage,
-  type YourIdea,
+import type {
+  DigitalExperiences,
+  FaqItem,
+  Hero,
+  IndustriesSectionCopy,
+  Industry,
+  MockupTheme,
+  Problem,
+  ProcessStep,
+  Project,
+  Stat,
+  TeamMember,
+  Testimonial,
+  WebsitePackage,
+  YourIdea,
 } from "@/data/home";
-import { contactDetails, siteDescription, siteName, socialLinks, type ContactDetails, type SocialLink } from "@/data/site";
+import type { ContactDetails, SocialLink } from "@/data/site";
 
 export type SiteContent = {
   site: { name: string; description: string; contact: ContactDetails; socials: SocialLink[] };
@@ -56,120 +42,118 @@ export type SiteContent = {
   faqs: FaqItem[];
 };
 
-const FALLBACK: SiteContent = {
-  site: { name: siteName, description: siteDescription, contact: contactDetails, socials: socialLinks },
-  hero,
-  yourIdea,
-  digitalExperiences,
-  industriesSection,
-  stats: quickStats,
-  problems,
-  industries,
-  projects,
-  processSteps,
-  packages,
-  team,
-  testimonials,
-  faqs,
+export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8001").replace(/\/$/, "");
+export const CONTENT_ENDPOINT = `${API_URL}/api/content/`;
+
+/** Long enough for a sleeping free-tier backend to wake, short enough to fail visibly. */
+const TIMEOUT_MS = 45_000;
+
+export type ContentResult =
+  | { content: SiteContent; error: null }
+  | { content: null; error: ContentError };
+
+export type ContentError = {
+  /** One line a non-developer can act on. */
+  summary: string;
+  /** The underlying technical reason. */
+  detail: string;
+  endpoint: string;
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8001";
+type ApiIndustry = Omit<Industry, "theme"> & { template?: MockupTheme | null };
+type ApiProject = Omit<Project, "theme"> & { template?: MockupTheme | null };
 
-/** Seconds before a page rechecks the API. Admin edits appear within this window. */
-const REVALIDATE_SECONDS = 300;
-
-type ThemeKey = keyof typeof themes;
-
-/**
- * Templates come from the API as whole objects. A row with no template selected
- * falls back to a bundled design, matched on key where possible.
- */
-function resolveTheme(template: MockupTheme | undefined | null): MockupTheme {
-  if (template && template.name) return template;
-  const key = (template as { key?: string } | null | undefined)?.key;
-  return themes[key as ThemeKey] ?? themes.corporate;
-}
-
-function list<T>(value: unknown, fallback: T[]): T[] {
-  // An empty array is a real answer (everything unpublished); a missing key is not.
-  return Array.isArray(value) ? (value as T[]) : fallback;
-}
-
-type ApiIndustry = Omit<Industry, "theme"> & { template?: MockupTheme };
-type ApiProject = Omit<Project, "theme"> & { template?: MockupTheme };
+/** A row with no template selected still has to render something. */
+const PLACEHOLDER_THEME: MockupTheme = {
+  name: "Demo",
+  domain: "demo.site",
+  headline: "A website for your business",
+  subline: "Pick a template in the admin to change this preview.",
+  cta: "Get in touch",
+  nav: ["Home", "About", "Contact"],
+  cards: ["One", "Two", "Three"],
+  accent: "#008454",
+  accentDark: "#00683e",
+  soft: "#f0f8f5",
+};
 
 function shape(data: Record<string, unknown>): SiteContent {
-  const site = (data.site ?? {}) as Partial<SiteContent["site"]>;
-  const apiHero = (data.hero ?? {}) as Partial<Hero>;
-  const apiIdea = (data.yourIdea ?? {}) as Partial<YourIdea>;
-  const apiDigital = (data.digitalExperiences ?? {}) as Partial<DigitalExperiences>;
-  const apiIndustries = (data.industriesSection ?? {}) as Partial<IndustriesSectionCopy>;
+  const withTheme = <T extends { template?: MockupTheme | null }>(row: T) => {
+    const { template, ...rest } = row;
+    return { ...rest, theme: template ?? PLACEHOLDER_THEME };
+  };
 
   return {
-    site: {
-      name: site.name || FALLBACK.site.name,
-      description: site.description || FALLBACK.site.description,
-      contact: site.contact ?? {},
-      // A social link with no URL yet would render as a dead icon.
-      socials: (site.socials ?? FALLBACK.site.socials).filter((link) => link.href && link.href !== "#"),
-    },
-    hero: {
-      // Each field falls back on its own, so one blank box in the admin can't
-      // wipe the headline.
-      heading: apiHero.heading || FALLBACK.hero.heading,
-      subheading: apiHero.subheading || FALLBACK.hero.subheading,
-      qualitiesLabel: apiHero.qualitiesLabel || FALLBACK.hero.qualitiesLabel,
-      qualities: apiHero.qualities?.length ? apiHero.qualities : FALLBACK.hero.qualities,
-      image: apiHero.image || undefined,
-      imageAlt: apiHero.imageAlt || undefined,
-      badges: apiHero.badges ?? FALLBACK.hero.badges,
-    },
-    yourIdea: {
-      heading: apiIdea.heading || FALLBACK.yourIdea.heading,
-      closingText: apiIdea.closingText || FALLBACK.yourIdea.closingText,
-      ctaLabel: apiIdea.ctaLabel || FALLBACK.yourIdea.ctaLabel,
-      ctaHref: apiIdea.ctaHref || FALLBACK.yourIdea.ctaHref,
-    },
-    digitalExperiences: {
-      heading: apiDigital.heading || FALLBACK.digitalExperiences.heading,
-      linkLabel: apiDigital.linkLabel || FALLBACK.digitalExperiences.linkLabel,
-      linkHref: apiDigital.linkHref || FALLBACK.digitalExperiences.linkHref,
-    },
-    industriesSection: {
-      heading: apiIndustries.heading || FALLBACK.industriesSection.heading,
-      linkLabel: apiIndustries.linkLabel || FALLBACK.industriesSection.linkLabel,
-      linkHref: apiIndustries.linkHref || FALLBACK.industriesSection.linkHref,
-      footnoteLabel: apiIndustries.footnoteLabel || FALLBACK.industriesSection.footnoteLabel,
-      footnoteItems: apiIndustries.footnoteItems?.length
-        ? apiIndustries.footnoteItems
-        : FALLBACK.industriesSection.footnoteItems,
-    },
-    stats: list<Stat>(data.stats, FALLBACK.stats),
-    problems: list<Problem>(data.problems, FALLBACK.problems),
-    industries: list<ApiIndustry>(data.industries, []).length
-      ? list<ApiIndustry>(data.industries, []).map(({ template, ...rest }) => ({ ...rest, theme: resolveTheme(template) }))
-      : FALLBACK.industries,
-    projects: list<ApiProject>(data.projects, []).length
-      ? list<ApiProject>(data.projects, []).map(({ template, ...rest }) => ({ ...rest, theme: resolveTheme(template) }))
-      : FALLBACK.projects,
-    processSteps: list<ProcessStep>(data.processSteps, FALLBACK.processSteps),
-    packages: list<WebsitePackage>(data.packages, FALLBACK.packages),
-    team: list<TeamMember>(data.team, FALLBACK.team),
-    testimonials: list<Testimonial>(data.testimonials, FALLBACK.testimonials),
-    faqs: list<FaqItem>(data.faqs, FALLBACK.faqs),
+    ...(data as unknown as SiteContent),
+    industries: ((data.industries ?? []) as ApiIndustry[]).map(withTheme) as Industry[],
+    projects: ((data.projects ?? []) as ApiProject[]).map(withTheme) as Project[],
   };
 }
 
-export async function getContent(): Promise<SiteContent> {
-  try {
-    const response = await fetch(`${API_URL}/api/content/`, {
-      next: { revalidate: REVALIDATE_SECONDS },
-    });
-    if (!response.ok) throw new Error(`API responded ${response.status}`);
-    return shape(await response.json());
-  } catch (error) {
-    // Never fail a page render because the CMS is down.
-    console.warn("[content] using bundled copy —", error instanceof Error ? error.message : error);
-    return FALLBACK;
+/** Next marks its bail-out error with this digest; it must not be caught. */
+function isDynamicUsage(error: unknown): boolean {
+  return typeof (error as { digest?: unknown })?.digest === "string" &&
+    (error as { digest: string }).digest === "DYNAMIC_SERVER_USAGE";
+}
+
+function describe(error: unknown): ContentError {
+  const endpoint = CONTENT_ENDPOINT;
+
+  if (error instanceof DOMException && error.name === "TimeoutError") {
+    return {
+      summary: `The content service did not answer within ${TIMEOUT_MS / 1000} seconds.`,
+      detail: "On a free hosting plan the server sleeps when idle and can take a while to wake. Reloading often fixes it.",
+      endpoint,
+    };
   }
+
+  if (error instanceof Error && error.message.startsWith("HTTP ")) {
+    return {
+      summary: `The content service replied with an error (${error.message.slice(5)}).`,
+      detail: "The server is reachable but could not serve the content. Check its logs.",
+      endpoint,
+    };
+  }
+
+  return {
+    summary: "The content service could not be reached.",
+    detail:
+      error instanceof Error
+        ? `${error.message}. Check that the API is running and that NEXT_PUBLIC_API_URL points at it.`
+        : "Check that the API is running and that NEXT_PUBLIC_API_URL points at it.",
+    endpoint,
+  };
+}
+
+export async function getContent(): Promise<ContentResult> {
+  try {
+    const response = await fetch(CONTENT_ENDPOINT, {
+      // Always live: an edit in the admin shows on the next page load.
+      cache: "no-store",
+      signal: AbortSignal.timeout(TIMEOUT_MS),
+    });
+
+    if (!response.ok) throw new Error(`HTTP ${response.status} ${response.statusText}`.trim());
+
+    return { content: shape(await response.json()), error: null };
+  } catch (error) {
+    // Next signals "this route cannot be static" by throwing through fetch.
+    // That is control flow, not a failure: swallowing it breaks the build.
+    if (isDynamicUsage(error)) throw error;
+
+    const described = describe(error);
+    console.error(`[content] ${described.summary} (${described.endpoint}) — ${described.detail}`);
+    return { content: null, error: described };
+  }
+}
+
+/**
+ * For sections, which only render once their page has confirmed the API is
+ * reachable. Within one render React reuses the same fetch, so this cannot
+ * disagree with the check the page already made.
+ */
+export async function requireContent(): Promise<SiteContent> {
+  const { content, error } = await getContent();
+  if (!content) throw new Error(`${error.summary} ${error.detail}`);
+  return content;
 }

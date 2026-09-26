@@ -2,10 +2,10 @@ import Link from "next/link";
 import { WhyOrik } from "@/components/sections/home/WhyOrik";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 import { footerNav } from "@/data/navigation";
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 
 export async function Footer() {
-  const { site } = await getContent();
+  const { site } = await requireContent();
   const { name: siteName, description: siteDescription, socials: socialLinks } = site;
   const { email, phone, location } = site.contact;
   const year = new Date().getFullYear();

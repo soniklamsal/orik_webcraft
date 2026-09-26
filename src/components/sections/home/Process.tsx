@@ -1,4 +1,4 @@
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 
 type ProcessProps = {
   titleAs?: "h1" | "h2";
@@ -6,7 +6,7 @@ type ProcessProps = {
 };
 
 export async function Process({ titleAs: Title = "h2", className = "mt-30" }: ProcessProps) {
-  const { processSteps } = await getContent();
+  const { processSteps } = await requireContent();
 
   return (
     <section

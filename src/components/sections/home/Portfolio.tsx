@@ -2,7 +2,7 @@ import { Check } from "lucide-react";
 import { ButtonLink } from "@/components/ui/Button";
 import { LearnMoreLink } from "@/components/ui/LearnMoreLink";
 import { BrowserMockup, PhoneMockup } from "@/components/ui/SiteMockup";
-import { getContent } from "@/lib/content";
+import { requireContent } from "@/lib/content";
 
 type PortfolioProps = {
   titleAs?: "h1" | "h2";
@@ -10,7 +10,7 @@ type PortfolioProps = {
 };
 
 export async function Portfolio({ titleAs: Title = "h2", className = "mt-30" }: PortfolioProps) {
-  const { projects } = await getContent();
+  const { projects } = await requireContent();
 
   return (
     <section id="work" aria-labelledby="work-heading" className={`scroll-mt-6 ${className}`}>

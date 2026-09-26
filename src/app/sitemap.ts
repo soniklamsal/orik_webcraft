@@ -13,7 +13,6 @@ const routes: { path: string; priority: number }[] = [
   { path: "/about", priority: 0.6 },
   { path: "/faq", priority: 0.6 },
 ];
-
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
   return routes.map(({ path, priority }) => ({
