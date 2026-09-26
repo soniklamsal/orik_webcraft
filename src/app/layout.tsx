@@ -44,7 +44,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
   },
   title: {
-    default: `Website Design Company in Nepal | ${siteName}`,
+    default: `Website Design & Development Company | ${siteName}`,
     template: `%s | ${siteName}`,
   },
   description: siteDescription,

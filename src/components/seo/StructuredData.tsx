@@ -55,12 +55,13 @@ export async function SiteStructuredData() {
     image: `${SITE_URL}/logos/brand/orik-webcraft.png`,
     email: contact.email,
     telephone: contact.phone,
-    address: compact({
-      "@type": "PostalAddress",
-      addressCountry: "NP",
-      addressLocality: contact.location,
-    }),
-    areaServed: { "@type": "Country", name: "Nepal" },
+    // Clients are taken worldwide, so no country is claimed as the service
+    // area. An address is only asserted once Site settings has a location:
+    // a half-empty PostalAddress is a weaker signal than none.
+    areaServed: { "@type": "Place", name: "Worldwide" },
+    address: contact.location
+      ? { "@type": "PostalAddress", addressLocality: contact.location }
+      : undefined,
     knowsAbout: [
       "Website design",
       "Website development",

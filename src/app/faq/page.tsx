@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Website Design FAQs",
   description:
-    "How much a website costs in Nepal, how long it takes, whether it works on phones, and how WhatsApp, chatbots, SEO and ongoing support are handled.",
+    "How much a website costs, how long it takes, whether it works on phones, and how WhatsApp, chatbots, SEO and ongoing support are handled.",
   alternates: { canonical: "/faq" },
 };
 

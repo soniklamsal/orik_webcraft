@@ -5,7 +5,7 @@ import { AboutContent } from "./AboutContent";
 export const metadata: Metadata = {
   title: "About Our Web Design Team",
   description:
-    "Who builds your website at ORIK Webcraft, how we work with businesses in Nepal, and why we put clear communication ahead of jargon.",
+    "Who builds your website at ORIK Webcraft, how we work with the businesses we serve, and why we put clear communication ahead of jargon.",
   alternates: { canonical: "/about" },
 };
 

@@ -5,7 +5,7 @@ import { siteName } from "@/data/site";
 // tags itself, with the right absolute URL and dimensions.
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = `${siteName} — website design and development in Nepal`;
+export const alt = `${siteName} — website design and development`;
 
 export default function OpengraphImage() {
   return new ImageResponse(
@@ -23,7 +23,7 @@ export default function OpengraphImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ fontSize: 30, letterSpacing: 4, opacity: 0.8 }}>WEBSITE DESIGN IN NEPAL</div>
+        <div style={{ fontSize: 30, letterSpacing: 4, opacity: 0.8 }}>WEBSITE DESIGN &amp; DEVELOPMENT</div>
         <div style={{ fontSize: 86, fontWeight: 700, marginTop: 24, lineHeight: 1.1 }}>{siteName}</div>
         <div style={{ fontSize: 40, marginTop: 28, opacity: 0.9, maxWidth: 900 }}>
           Websites that work for your business.

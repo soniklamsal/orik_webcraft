@@ -11,9 +11,9 @@ import { getContent } from "@/lib/content";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Website Design Price in Nepal",
+  title: "Website Design Pricing & Packages",
   description:
-    "What a website costs in Nepal, by package. Business sites, landing pages and online stores from ORIK Webcraft, each quoted after a free consultation.",
+    "What a website costs, package by package. Business sites, landing pages and online stores from ORIK Webcraft, each quoted after a free consultation.",
   alternates: { canonical: "/pricing" },
 };
 

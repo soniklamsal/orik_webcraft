@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Website Design by Industry",
   description:
-    "Websites for restaurants, retail, education, travel, real estate, professional services and corporate businesses in Nepal, each built for how that trade sells.",
+    "Websites for restaurants, retail, education, travel, real estate, professional services and corporate businesses, each built for how that trade sells.",
   alternates: { canonical: "/industries" },
 };
 

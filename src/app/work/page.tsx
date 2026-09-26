@@ -13,7 +13,7 @@ export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Website Design Portfolio",
   description:
-    "Websites built by ORIK Webcraft for restaurants, retail, education and corporate businesses in Nepal. See the design, the pages and what each one does.",
+    "Websites built by ORIK Webcraft for restaurants, retail, education and corporate businesses. See the design, the pages and what each one does.",
   alternates: { canonical: "/work" },
 };
 
