@@ -62,7 +62,7 @@ export async function Footer() {
         </div>
 
         <div className="mx-auto flex max-w-7xl flex-col items-center border-t border-navy/10 py-5 text-sm text-navy">
-          <div className="mt-2 flex flex-row md:flex-auto md:flex-row-reverse">
+          <div className="mt-2 flex flex-row md:flex-auto">
             {socialLinks.map((link) => (
               <a key={link.platform} href={link.href} aria-label={`${siteName} on ${link.label}`} className="mx-1 w-6">
                 <SocialIcon platform={link.platform} className="cursor-pointer fill-current text-navy/60 hover:text-primary" />
