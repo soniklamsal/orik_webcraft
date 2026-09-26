@@ -6,7 +6,7 @@ import { requireContent } from "@/lib/content";
 // Both are from Unsplash, which licenses them for commercial use without
 // attribution: Vitaly Gariev (left) and David Kristianto (right).
 const FALLBACK_LEFT_IMAGE = "/images/why-orik/team.jpg";
-const FALLBACK_LEFT_ALT = "A smiling woman working at a laptop in a bright, colourful office";
+const FALLBACK_LEFT_ALT = "A smiling man in glasses at his laptop, in an office with a strategy board behind him";
 const FALLBACK_RIGHT_IMAGE = "/images/why-orik/laptop.jpg";
 const FALLBACK_RIGHT_ALT = "A tidy modern desk with an open laptop, a lamp and a wall organiser";
 
