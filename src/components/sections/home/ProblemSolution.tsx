@@ -78,10 +78,10 @@ export async function ProblemSolution() {
           })}
         </ul>
 
-        <div className="relative mt-5 overflow-hidden rounded-[8px] bg-navy px-6 py-14 text-center sm:px-12 xl:mx-2.5">
+        <div className="relative mt-5 overflow-hidden rounded-[8px] bg-primary-deep px-6 py-14 text-center sm:px-12 xl:mx-2.5">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute -top-40 left-1/2 h-80 w-160 -translate-x-1/2 rounded-full bg-primary/30 blur-3xl"
+            className="pointer-events-none absolute -top-52 left-1/2 h-80 w-160 -translate-x-1/2 rounded-full bg-primary/35 blur-3xl"
           />
           <p className="relative mx-auto max-w-175 font-inter text-[22px] leading-8 text-white/85">
             {yourIdea.closingText}

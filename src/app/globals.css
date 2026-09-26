@@ -10,6 +10,8 @@
   --color-navy: #050038;
   --color-primary: #008454;
   --color-primary-dark: #00683e;
+  /* Deep enough for white text and for the green button to read on top. */
+  --color-primary-deep: #00291b;
   --color-input-border: #9b99af;
   --color-placeholder: #5f5c80;
   --color-surface: #f5f5f7;
