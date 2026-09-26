@@ -9,22 +9,10 @@ export type ContactDetails = {
   location?: string;
 };
 
-// Fill these in to show them in the footer; empty fields stay hidden.
-export const contactDetails: ContactDetails = {};
-
-export type SocialPlatform = "whatsapp" | "instagram" | "facebook" | "linkedin" | "twitter" | "youtube" | "medium";
+export type SocialPlatform = "whatsapp" | "instagram" | "facebook" | "linkedin";
 
 export type SocialLink = {
   platform: SocialPlatform;
   label: string;
   href: string;
 };
-
-// Replace "#" with your profile URLs.
-export const socialLinks: SocialLink[] = [
-  { platform: "twitter", label: "Twitter", href: "#" },
-  { platform: "facebook", label: "Facebook", href: "#" },
-  { platform: "youtube", label: "YouTube", href: "#" },
-  { platform: "linkedin", label: "LinkedIn", href: "#" },
-  { platform: "medium", label: "Medium", href: "#" },
-];
