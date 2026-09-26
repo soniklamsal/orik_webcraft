@@ -16,7 +16,7 @@ export async function Portfolio({ titleAs: Title = "h2", className = "mt-30" }: 
     <section id="work" aria-labelledby="work-heading" className={`scroll-mt-6 ${className}`}>
       <div className="mx-auto max-w-285 px-4 text-center xl:px-0">
         <Title id="work-heading" className="font-inter text-[48px] leading-14 font-bold tracking-[-1px] text-navy">
-          See what we&apos;ve built
+          See the websites we&apos;ve built
         </Title>
         <div className="mt-6 flex justify-center">
           <ButtonLink href="/contact">Start your project</ButtonLink>

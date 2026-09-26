@@ -18,7 +18,7 @@ export async function Process({ titleAs: Title = "h2", className = "mt-30" }: Pr
         id="process-heading"
         className="text-center font-inter text-[48px] leading-14 font-bold tracking-[-1px] text-navy"
       >
-        From idea to online
+        Our web design process, from idea to online
       </Title>
       <p className="mx-auto mt-4 max-w-190 text-center text-[18px] leading-6 text-navy/72">
         A simple, transparent process that keeps you involved at every step.

@@ -20,7 +20,7 @@ export async function Pricing({ titleAs: Title = "h2", className = "mt-15" }: Pr
         id="pricing-heading"
         className="text-center font-inter text-[48px] leading-14 font-bold tracking-[-1px] text-navy"
       >
-        Choose the right package
+        Website design packages and pricing
       </Title>
       <p className="mx-auto mt-4 max-w-190 text-center text-[18px] leading-6 text-navy/72">
         Every business is different, so each project is quoted after a free consultation.
