@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs, ServiceCatalogue } from "@/components/seo/StructuredData";
 import { Suspense } from "react";
 import { Pricing } from "@/components/sections/home/Pricing";
 import { ContentUnavailable } from "@/components/ui/ContentUnavailable";
@@ -10,18 +11,24 @@ import { getContent } from "@/lib/content";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Pricing",
-  description: "Website packages from ORIK Webcraft. Every project is quoted after a free consultation.",
+  title: "Website Design Price in Nepal",
+  description:
+    "What a website costs in Nepal, by package. Business sites, landing pages and online stores from ORIK Webcraft, each quoted after a free consultation.",
+  alternates: { canonical: "/pricing" },
 };
 
 async function PricingPageContent() {
-  const { error } = await getContent();
+  const { content, error } = await getContent();
   if (error) return <ContentUnavailable error={error} />;
 
   return (
-    <main>
-      <Pricing titleAs="h1" className="mt-15" />
-    </main>
+    <>
+      <Breadcrumbs trail={[{ name: "Pricing", path: "/pricing" }]} />
+      <ServiceCatalogue packages={content.packages} />
+      <main>
+        <Pricing titleAs="h1" className="mt-15" />
+      </main>
+    </>
   );
 }
 

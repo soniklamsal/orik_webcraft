@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/seo/StructuredData";
 import { Suspense } from "react";
 import { Process } from "@/components/sections/home/Process";
 import { ContentUnavailable } from "@/components/ui/ContentUnavailable";
@@ -10,8 +11,10 @@ import { getContent } from "@/lib/content";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Our Process",
-  description: "How ORIK Webcraft takes your website from idea to online: discover, plan, design, develop, launch and support.",
+  title: "How We Build Your Website",
+  description:
+    "Our six steps from idea to online: discover, plan, design, develop, launch and support. Clear stages, so you know what happens and when.",
+  alternates: { canonical: "/process" },
 };
 
 async function ProcessPageContent() {
@@ -19,9 +22,12 @@ async function ProcessPageContent() {
   if (error) return <ContentUnavailable error={error} />;
 
   return (
-    <main>
+    <>
+      <Breadcrumbs trail={[{ name: "Our Process", path: "/process" }]} />
+      <main>
       <Process titleAs="h1" className="mt-15" />
-    </main>
+      </main>
+    </>
   );
 }
 

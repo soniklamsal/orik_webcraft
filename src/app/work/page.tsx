@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/seo/StructuredData";
 import { Suspense } from "react";
 import { Portfolio } from "@/components/sections/home/Portfolio";
 import { ContentUnavailable } from "@/components/ui/ContentUnavailable";
@@ -10,8 +11,10 @@ import { getContent } from "@/lib/content";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Our Work",
-  description: "Demo websites by ORIK Webcraft for an online store, an education consultancy and a corporate business.",
+  title: "Website Design Portfolio",
+  description:
+    "Websites built by ORIK Webcraft for restaurants, retail, education and corporate businesses in Nepal. See the design, the pages and what each one does.",
+  alternates: { canonical: "/work" },
 };
 
 async function WorkPageContent() {
@@ -19,9 +22,12 @@ async function WorkPageContent() {
   if (error) return <ContentUnavailable error={error} />;
 
   return (
-    <main>
+    <>
+      <Breadcrumbs trail={[{ name: "Our Work", path: "/work" }]} />
+      <main>
       <Portfolio titleAs="h1" className="mt-15" />
-    </main>
+      </main>
+    </>
   );
 }
 

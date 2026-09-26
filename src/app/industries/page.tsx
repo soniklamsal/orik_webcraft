@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs } from "@/components/seo/StructuredData";
 import { Suspense } from "react";
 import { Industries } from "@/components/sections/home/Industries";
 import { ContentUnavailable } from "@/components/ui/ContentUnavailable";
@@ -8,9 +9,10 @@ import { getContent } from "@/lib/content";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Industries",
+  title: "Website Design by Industry",
   description:
-    "Websites ORIK Webcraft builds for restaurants, corporate businesses, education, travel, retail, real estate, professional services and local business.",
+    "Websites for restaurants, retail, education, travel, real estate, professional services and corporate businesses in Nepal, each built for how that trade sells.",
+  alternates: { canonical: "/industries" },
 };
 
 async function IndustriesPageContent({ slug }: { slug?: string }) {
@@ -18,11 +20,14 @@ async function IndustriesPageContent({ slug }: { slug?: string }) {
   if (error) return <ContentUnavailable error={error} />;
 
   return (
-    <main>
+    <>
+      <Breadcrumbs trail={[{ name: "Industries", path: "/industries" }]} />
+      <main>
       {/* Keying on the slug remounts the section when another mega-menu link is
           clicked from this page, which a query change alone wouldn't do. */}
       <Industries key={slug ?? "default"} initialSlug={slug} titleAs="h1" className="mt-15" />
-    </main>
+      </main>
+    </>
   );
 }
 

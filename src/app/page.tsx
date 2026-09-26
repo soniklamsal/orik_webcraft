@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Faq } from "@/components/sections/home/Faq";
 import { Hero } from "@/components/sections/home/Hero";
@@ -15,6 +16,10 @@ import { getContent } from "@/lib/content";
 // Content comes live from the API on every request, so an edit in the admin
 // shows on the next page load.
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 async function HomePageContent() {
   const { error } = await getContent();

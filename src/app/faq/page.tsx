@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Breadcrumbs, FaqStructuredData } from "@/components/seo/StructuredData";
 import { Suspense } from "react";
 import { Faq } from "@/components/sections/home/Faq";
 import { ContentUnavailable } from "@/components/ui/ContentUnavailable";
@@ -10,18 +11,24 @@ import { getContent } from "@/lib/content";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "FAQ",
-  description: "Answers to common questions about website cost, mobile-friendly design, WhatsApp, chatbots, SEO and support from ORIK Webcraft.",
+  title: "Website Design FAQs",
+  description:
+    "How much a website costs in Nepal, how long it takes, whether it works on phones, and how WhatsApp, chatbots, SEO and ongoing support are handled.",
+  alternates: { canonical: "/faq" },
 };
 
 async function FaqPageContent() {
-  const { error } = await getContent();
+  const { content, error } = await getContent();
   if (error) return <ContentUnavailable error={error} />;
 
   return (
-    <main>
-      <Faq titleAs="h1" className="mt-15" />
-    </main>
+    <>
+      <Breadcrumbs trail={[{ name: "FAQ", path: "/faq" }]} />
+      <FaqStructuredData faqs={content.faqs} />
+      <main>
+        <Faq titleAs="h1" className="mt-15" />
+      </main>
+    </>
   );
 }
 
