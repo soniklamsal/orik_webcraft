@@ -1,6 +1,6 @@
 "use client";
 
-import { Share2, X } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 import type { SocialLink } from "@/data/site";
@@ -12,7 +12,7 @@ const STAGGER_MS = 45;
 // How far the icons sit from the button, and the slice of circle they spread
 // across: straight up (90 degrees) round to straight left (180), which is the
 // free space next to a button pinned in the bottom-right corner.
-const RADIUS_PX = 112;
+const RADIUS_PX = 124;
 const FIRST_ANGLE = 90;
 const LAST_ANGLE = 180;
 
@@ -77,11 +77,11 @@ export function SocialDockMenu({ links, siteName }: SocialDockMenuProps) {
                   transform: open ? `translate(${x}px, ${y}px) scale(1)` : "translate(0px, 0px) scale(0.3)",
                   transitionDelay: `${order * STAGGER_MS}ms`,
                 }}
-                className={`group grid size-11 place-items-center rounded-full bg-white shadow-[0_6px_20px_-6px_rgba(5,0,56,0.35)] transition duration-300 ease-out motion-reduce:transition-none ${
+                className={`group grid size-13 place-items-center rounded-full bg-white shadow-[0_6px_20px_-6px_rgba(5,0,56,0.35)] transition duration-300 ease-out motion-reduce:transition-none ${
                   open ? "opacity-100" : "pointer-events-none opacity-0"
                 }`}
               >
-                <span className="size-5.5">
+                <span className="size-6.5">
                   <SocialIcon
                     platform={link.platform}
                     className="fill-current text-navy/70 transition-colors group-hover:text-primary"
@@ -102,7 +102,7 @@ export function SocialDockMenu({ links, siteName }: SocialDockMenuProps) {
       >
         {/* Both glyphs are stacked so one can spin out as the other spins in. */}
         <span className="relative grid size-6 place-items-center">
-          <Share2
+          <MessageCircle
             aria-hidden="true"
             className={`absolute size-6 transition-all duration-200 ease-out motion-reduce:transition-none ${
               open ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"
