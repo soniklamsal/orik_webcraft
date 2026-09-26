@@ -25,7 +25,7 @@ export async function QuickStats() {
           <dl className="mt-16 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-4">
             {quickStats.map((stat, index) => (
               <div key={stat.label} className="flex flex-col-reverse items-center justify-end">
-                <dt className="mt-2 max-w-40 font-inter text-[16px] leading-5.5 text-navy">{stat.label}</dt>
+                <dt className="mt-2 max-w-40 font-inter text-[16px] leading-5.5 tracking-[0.04em] text-navy uppercase">{stat.label}</dt>
                 <dd className="font-inter text-[40px] leading-12 font-extrabold tracking-[-1.5px] text-navy tabular-nums md:text-[48px] md:leading-14">
                   <CountUp value={stat.value} delay={index * 120} />
                 </dd>
