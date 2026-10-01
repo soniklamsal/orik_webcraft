@@ -134,26 +134,7 @@ export default function TeamPage() {
           border: 12px solid #fff;
         }
 
-        .footer-wave {
-          max-width: 102%;
-          width: 100%;
-          height: 187.8px;
-          left: 0;
-          z-index: 1;
-          bottom: -67px;
-          background: url(https://1.bp.blogspot.com/-NYl6L8pz8B4/XoIVXwfhlNI/AAAAAAAAU3k/nxJKiLT706Mb7jUFiM5vdCsOSNnFAh0yQCLcBGAsYHQ/s1600/hero-wave.png) repeat-x;
-          animation: wave 10s cubic-bezier(0.44, 0.66, 0.67, 0.37) infinite;
-          position: relative;
-        }
 
-        @keyframes wave {
-          0% {
-            background-position: 0;
-          }
-          100% {
-            background-position: 1440px;
-          }
-        }
 
         .mainbg {
           background-color: #ffffff;
@@ -379,7 +360,6 @@ export default function TeamPage() {
               <span className="icon-map2">OUR TEAM MEMBERS</span>
             </div>
           </div>
-          <div className="footer-wave"></div>
         </header>
 
         <section className="mainbg" style={{ paddingBottom: 0, marginBottom: 0 }}>
