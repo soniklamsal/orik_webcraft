@@ -77,6 +77,11 @@ export default function TeamPage() {
   return (
     <>
       <style jsx global>{`
+        main {
+          margin-bottom: 0 !important;
+          padding-bottom: 0 !important;
+        }
+
         .header-design {
           background-color: #4CAF50;
           background-image: linear-gradient(326deg, #4CAF50 0%, #087f23 74%);
@@ -153,11 +158,12 @@ export default function TeamPage() {
         .mainbg {
           background-color: #f5f5f5;
           padding: 120px 20px 0 20px;
+          margin-bottom: 0;
         }
 
         .mt-10 {
           margin-top: 120px;
-          margin-bottom: 50px;
+          margin-bottom: 0;
         }
 
         .user-main {
@@ -365,7 +371,7 @@ export default function TeamPage() {
         }
       `}</style>
 
-      <main>
+      <main className="mb-0">
         <header className="header-design">
           <div className="listar-map-button">
             <div className="listar-map-button-text">
