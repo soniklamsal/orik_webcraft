@@ -524,10 +524,10 @@ If you serve multiple Nepal cities, create pages for each:
 4. **Timing matters:** Ask within 1 week of completion
 
 **Google Review Link Format:**
-`https://g.page/your-business/review`
+https://g.page/your-business/review
 
 **What to Say:**
-> "Hi [Name]! Thanks for choosing us. Could you share your experience on Google? It helps other Nepal businesses find us. Here's the link: [URL]"
+"Hi [Name]! Thanks for choosing us. Could you share your experience on Google? It helps other Nepal businesses find us. Here's the link: [URL]"
 
 **Respond to ALL Reviews:**
 - Thank positive ones
