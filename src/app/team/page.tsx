@@ -159,6 +159,7 @@ export default function TeamPage() {
           background-color: #f5f5f5;
           padding: 120px 20px 0 20px;
           margin-bottom: 0;
+          padding-bottom: 0 !important;
         }
 
         .mt-10 {
@@ -381,8 +382,8 @@ export default function TeamPage() {
           <div className="footer-wave"></div>
         </header>
 
-        <section className="mainbg">
-          <div className="container mx-auto px-4">
+        <section className="mainbg" style={{ paddingBottom: 0, marginBottom: 0 }}>
+          <div className="container mx-auto px-4" style={{ paddingBottom: 0, marginBottom: 0 }}>
             {loading ? (
               <div className="text-center py-20">
                 <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
@@ -393,7 +394,7 @@ export default function TeamPage() {
                 <p className="text-gray-600 text-lg">No team members available at the moment.</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center max-w-[1400px] mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 justify-items-center max-w-[1400px] mx-auto" style={{ paddingBottom: 0, marginBottom: 0 }}>
                 {teamMembers.map((member) => (
                   <div key={member.id} className="mt-10">
                     <div className="user-main">
