@@ -1,3 +1,18 @@
+import type { Metadata } from "next";
+import { Breadcrumbs, TeamStructuredData } from "@/components/seo/StructuredData";
+
+export const metadata: Metadata = {
+  title: "Meet Our Web Design Team",
+  description:
+    "Meet the talented team at ORIK Webcraft - Rohan Shah (Founder & CEO), Sonik Lamsal (Co-Founder & CTO), and Subham Karki (Lead Designer). Expert web designers and developers serving businesses worldwide.",
+  alternates: { canonical: "/team" },
+  openGraph: {
+    title: "Meet Our Web Design Team | ORIK Webcraft",
+    description: "Meet the experts behind ORIK Webcraft - passionate web designers and developers dedicated to building exceptional websites.",
+    url: "/team",
+  },
+};
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -76,6 +91,8 @@ export default function TeamPage() {
 
   return (
     <>
+      <Breadcrumbs trail={[{ name: "Team", path: "/team" }]} />
+      <TeamStructuredData members={teamMembers} />
       <style jsx global>{`
         main {
           margin-bottom: 0 !important;
@@ -382,7 +399,7 @@ export default function TeamPage() {
                         {member.photo ? (
                           <img
                             src={member.photo.startsWith('http') ? member.photo : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001'}${member.photo}`}
-                            alt={member.name}
+                            alt={`${member.name} - ${member.role} at ORIK Webcraft`}
                             className="w-full h-full object-cover"
                           />
                         ) : (

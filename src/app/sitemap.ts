@@ -9,7 +9,9 @@ const routes: { path: string; priority: number }[] = [
   { path: "/contact", priority: 0.9 },
   { path: "/work", priority: 0.8 },
   { path: "/industries", priority: 0.8 },
+  { path: "/blog", priority: 0.8 },
   { path: "/process", priority: 0.7 },
+  { path: "/team", priority: 0.7 },
   { path: "/about", priority: 0.6 },
   { path: "/faq", priority: 0.6 },
 ];

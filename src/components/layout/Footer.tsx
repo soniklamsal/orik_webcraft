@@ -1,10 +1,16 @@
 import Link from "next/link";
 import { WhyOrik } from "@/components/sections/home/WhyOrik";
 import { SocialIcon } from "@/components/ui/SocialIcon";
-import { requireContent } from "@/lib/content";
+import { getContent } from "@/lib/content";
 
 export async function Footer() {
-  const { site, footerBottom } = await requireContent();
+  // getContent, not requireContent: this renders inside the root layout, so a
+  // throw here fails the whole page rather than just the footer. The page
+  // itself already explains an unreachable backend.
+  const { content } = await getContent();
+  if (!content) return null;
+
+  const { site, footerBottom } = content;
   const { name: siteName, description: siteDescription, socials: socialLinks } = site;
   const { email, phone, location } = site.contact;
   const year = new Date().getFullYear();

@@ -157,3 +157,41 @@ export function FaqStructuredData({ faqs }: { faqs: { question: string; answer: 
     />
   );
 }
+
+/**
+ * Team members structured data for better representation in search results.
+ */
+export function TeamStructuredData({
+  members
+}: {
+  members: Array<{
+    name: string;
+    role: string;
+    photo?: string;
+    email?: string;
+    whatsapp?: string;
+    links?: Array<{ platform: string; url: string }>;
+  }>
+}) {
+  if (members.length === 0) return null;
+
+  return (
+    <JsonLd
+      data={{
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "@id": ORGANISATION_ID,
+        employee: members.map((member) => compact({
+          "@type": "Person",
+          name: member.name,
+          jobTitle: member.role,
+          image: member.photo,
+          email: member.email,
+          telephone: member.whatsapp,
+          sameAs: member.links?.map((link) => link.url) || [],
+          worksFor: { "@id": ORGANISATION_ID },
+        })),
+      }}
+    />
+  );
+}

@@ -10,6 +10,7 @@ import { Suspense } from "react";
 import { FooterSkeleton } from "@/components/ui/Skeleton";
 import { siteDescription, siteName } from "@/data/site";
 import { SITE_URL } from "@/lib/site-url";
+import { GoogleAnalytics } from "@/lib/analytics";
 import "./globals.css";
 const inter = Inter({
   variable: "--font-inter-sans",
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${inter.variable} ${interArrow.variable} ${manrope.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-white font-helvetica text-navy" suppressHydrationWarning>
+        <GoogleAnalytics />
         <Suspense fallback={null}>
           <SiteStructuredData />
         </Suspense>

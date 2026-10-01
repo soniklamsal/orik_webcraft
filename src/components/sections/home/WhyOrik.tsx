@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { ButtonLink } from "@/components/ui/Button";
-import { requireContent } from "@/lib/content";
+import { getContent } from "@/lib/content";
 
 // Kept in code: these are the built-in photos, used until one is uploaded.
 // Both are from Unsplash, which licenses them for commercial use without
@@ -11,8 +11,10 @@ const FALLBACK_RIGHT_IMAGE = "/images/why-orik/laptop.jpg";
 const FALLBACK_RIGHT_ALT = "A tidy modern desk with an open laptop, a lamp and a wall organiser";
 
 export async function WhyOrik() {
-  const { footerTop } = await requireContent();
-  const { left, right } = footerTop;
+  const { content } = await getContent();
+  if (!content) return null;
+
+  const { left, right } = content.footerTop;
 
   return (
     <section aria-labelledby="why-heading" className="mt-30 grid xl:grid-cols-2">
