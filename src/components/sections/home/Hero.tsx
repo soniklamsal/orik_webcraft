@@ -1,4 +1,5 @@
-import { MessageCircle, Search, Smartphone, Target, TrendingUp, Zap } from "lucide-react";
+import { Search, Smartphone, Target, TrendingUp, Zap } from "lucide-react";
+import { FaWhatsapp } from "react-icons/fa";
 import Image from "next/image";
 import { heroReviews, type Hero as HeroContent, type HeroBadgeIcon } from "@/data/home";
 import { requireContent } from "@/lib/content";
@@ -6,9 +7,9 @@ import { ReviewRating } from "./ReviewRating";
 
 const cardIcons = [Smartphone, Zap, Target];
 
-const badgeIcons: Record<HeroBadgeIcon, typeof TrendingUp> = {
+const badgeIcons: Record<HeroBadgeIcon, typeof TrendingUp | typeof FaWhatsapp> = {
   enquiries: TrendingUp,
-  whatsapp: MessageCircle,
+  whatsapp: FaWhatsapp,
   mobile: Smartphone,
   seo: Search,
   speed: Zap,
