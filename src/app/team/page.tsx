@@ -152,7 +152,7 @@ export default function TeamPage() {
 
         .mainbg {
           background-color: #f5f5f5;
-          padding: 120px 20px 80px 20px;
+          padding: 120px 20px 0 20px;
         }
 
         .mt-10 {
