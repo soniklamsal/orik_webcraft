@@ -202,7 +202,7 @@ export const primaryNav: NavItem[] = [
       footer: { label: "Start your project", href: "/contact" },
     },
   },
-  { label: "Process", href: "/process" },
+  { label: "Team", href: "/team" },
   { label: "Pricing", href: "/pricing" },
 ];
 
