@@ -156,7 +156,7 @@ export default function TeamPage() {
         }
 
         .mainbg {
-          background-color: #f5f5f5;
+          background-color: #ffffff;
           padding: 120px 20px 0 20px;
           margin-bottom: 0;
           padding-bottom: 0 !important;
@@ -176,12 +176,12 @@ export default function TeamPage() {
           display: inline-block;
           padding: 100px 30px 80px;
           transition: 0.4s all ease-in-out;
-          box-shadow: 0 12px 43px 0 rgba(0, 0, 0, 0.13);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 2px 10px rgba(0, 0, 0, 0.1);
           position: relative;
         }
 
         .user-main:hover {
-          box-shadow: 0 23px 43px 0 rgba(0, 0, 0, 0.26);
+          box-shadow: 0 8px 35px rgba(0, 0, 0, 0.25), 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
         .user-img {
