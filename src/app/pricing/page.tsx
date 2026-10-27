@@ -18,7 +18,9 @@ export const metadata: Metadata = {
 };
 
 async function PricingPageContent() {
-  const { content } = await getContent();
+  const { content, error } = await getContent();
+
+  if (!content) return <ContentUnavailable error={error} />;
 
   return (
     <>
