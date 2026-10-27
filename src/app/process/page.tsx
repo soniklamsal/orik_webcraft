@@ -18,14 +18,13 @@ export const metadata: Metadata = {
 };
 
 async function ProcessPageContent() {
-  const { error } = await getContent();
-  if (error) return <ContentUnavailable error={error} />;
+  await getContent();
 
   return (
     <>
       <Breadcrumbs trail={[{ name: "Our Process", path: "/process" }]} />
       <main>
-      <Process titleAs="h1" className="mt-15" />
+        <Process titleAs="h1" className="mt-15" />
       </main>
     </>
   );

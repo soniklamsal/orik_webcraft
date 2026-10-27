@@ -22,8 +22,17 @@ export const metadata: Metadata = {
 };
 
 async function HomePageContent() {
-  const { error } = await getContent();
-  if (error) return <ContentUnavailable error={error} />;
+  // getContent now returns fallback data instead of error when backend is down
+  const { content } = await getContent();
+
+  // Content is always available (either from API or fallback)
+  if (!content) {
+    return <ContentUnavailable error={{
+      summary: "Content could not be loaded",
+      detail: "Please try refreshing the page",
+      endpoint: ""
+    }} />;
+  }
 
   return (
     <main>

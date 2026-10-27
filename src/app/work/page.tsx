@@ -18,14 +18,13 @@ export const metadata: Metadata = {
 };
 
 async function WorkPageContent() {
-  const { error } = await getContent();
-  if (error) return <ContentUnavailable error={error} />;
+  await getContent();
 
   return (
     <>
       <Breadcrumbs trail={[{ name: "Our Work", path: "/work" }]} />
       <main>
-      <Portfolio titleAs="h1" className="mt-15" />
+        <Portfolio titleAs="h1" className="mt-15" />
       </main>
     </>
   );

@@ -18,14 +18,14 @@ export const metadata: Metadata = {
 };
 
 async function ContactPageContent() {
-  const { error } = await getContent();
-  if (error) return <ContentUnavailable error={error} />;
+  // getContent now returns fallback data instead of error when backend is down
+  await getContent();
 
   return (
     <>
       <Breadcrumbs trail={[{ name: "Contact", path: "/contact" }]} />
       <main>
-      <ContactSection titleAs="h1" className="mt-15" />
+        <ContactSection titleAs="h1" className="mt-15" />
       </main>
     </>
   );

@@ -16,16 +16,15 @@ export const metadata: Metadata = {
 };
 
 async function IndustriesPageContent({ slug }: { slug?: string }) {
-  const { error } = await getContent();
-  if (error) return <ContentUnavailable error={error} />;
+  await getContent();
 
   return (
     <>
       <Breadcrumbs trail={[{ name: "Industries", path: "/industries" }]} />
       <main>
-      {/* Keying on the slug remounts the section when another mega-menu link is
+        {/* Keying on the slug remounts the section when another mega-menu link is
           clicked from this page, which a query change alone wouldn't do. */}
-      <Industries key={slug ?? "default"} initialSlug={slug} titleAs="h1" className="mt-15" />
+        <Industries key={slug ?? "default"} initialSlug={slug} titleAs="h1" className="mt-15" />
       </main>
     </>
   );
