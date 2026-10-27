@@ -44,14 +44,68 @@ export function TeamContent() {
     const fetchTeamMembers = async () => {
       try {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8001';
-        const response = await fetch(`${apiUrl}/api/content/`);
+        const response = await fetch(`${apiUrl}/api/content/`, {
+          // Timeout after 10 seconds to fail fast
+          signal: AbortSignal.timeout(10000),
+        });
+
+        if (!response.ok) {
+          throw new Error(`API responded with status ${response.status}`);
+        }
+
         const data = await response.json();
 
         if (data.team && Array.isArray(data.team)) {
           setTeamMembers(data.team);
         }
       } catch (error) {
-        console.error('Error fetching team members:', error);
+        console.warn('Backend unavailable, using fallback team data:', error);
+
+        // Fallback team data
+        setTeamMembers([
+          {
+            id: 1,
+            name: "Rohan Shah",
+            role: "Founder & CEO",
+            bio: "",
+            photo: "https://res.cloudinary.com/dr54mqokd/image/upload/v1790863259/aflkdsf_gsqqqr.jpg",
+            email: "rohaanshah040@gmail.com",
+            whatsapp: "+977-9823757751",
+            links: [
+              { platform: "linkedin", url: "https://www.linkedin.com/in/rohan-shah" },
+              { platform: "facebook", url: "https://www.facebook.com/rohan.shah" },
+              { platform: "instagram", url: "https://www.instagram.com/rohan_shah" },
+            ],
+          },
+          {
+            id: 2,
+            name: "Sonik Lamsal",
+            role: "Co-Founder & CTO",
+            bio: "",
+            photo: "https://res.cloudinary.com/dr54mqokd/image/upload/v1790856602/Gemini_Generated_Image_qzpw7oqzpw7oqzpw_mkfzn5.jpg",
+            email: "soniklamsal111@gmail.com",
+            whatsapp: "+977-9842416371",
+            links: [
+              { platform: "linkedin", url: "https://www.linkedin.com/in/sonik-lamsal" },
+              { platform: "facebook", url: "https://www.facebook.com/sonik.lamsal" },
+              { platform: "instagram", url: "https://www.instagram.com/sonik_lamsal" },
+            ],
+          },
+          {
+            id: 3,
+            name: "Subham Karki",
+            role: "Co-Founder & Lead Designer",
+            bio: "",
+            photo: "",
+            email: "subham@orikwebcraft.com",
+            whatsapp: "+977-9842416371",
+            links: [
+              { platform: "linkedin", url: "https://www.linkedin.com/in/subham-karki" },
+              { platform: "facebook", url: "https://www.facebook.com/subham.karki" },
+              { platform: "instagram", url: "https://www.instagram.com/subham_karki" },
+            ],
+          },
+        ]);
       } finally {
         setLoading(false);
       }

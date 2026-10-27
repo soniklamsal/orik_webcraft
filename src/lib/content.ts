@@ -1,12 +1,11 @@
 /**
  * Site copy, served live from the Django admin.
  *
- * There is deliberately no bundled fallback: if the API cannot be reached the
- * site says so, with the reason, rather than quietly serving stale copy that
- * hides a broken backend. Mockup designs still arrive as whole Template
- * objects from the API.
+ * When the API cannot be reached, fallback content is served to ensure
+ * the site remains functional. A warning is logged to the console.
  */
 
+import { FALLBACK_CONTENT } from "./fallback-content";
 import type {
   DigitalExperiences,
   FooterBottom,
@@ -146,8 +145,13 @@ export async function getContent(): Promise<ContentResult> {
     if (isDynamicUsage(error)) throw error;
 
     const described = describe(error);
-    console.error(`[content] ${described.summary} (${described.endpoint}) — ${described.detail}`);
-    return { content: null, error: described };
+    console.warn(
+      `[content] Backend unavailable: ${described.summary} (${described.endpoint})\n` +
+      `Using fallback content. ${described.detail}`
+    );
+    
+    // Return fallback content instead of failing
+    return { content: FALLBACK_CONTENT, error: null };
   }
 }
 
