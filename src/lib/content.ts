@@ -161,7 +161,7 @@ export async function getContent(): Promise<ContentResult> {
  * disagree with the check the page already made.
  */
 export async function requireContent(): Promise<SiteContent> {
-  const { content, error } = await getContent();
-  if (!content) throw new Error(`${error.summary} ${error.detail}`);
-  return content;
+  const { content } = await getContent();
+  // Content is always available now (either from API or fallback)
+  return content!;
 }
