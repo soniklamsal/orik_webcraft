@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight, GripHorizontal, Quote, User } from "lucide-react";
-import type { PointerEvent as ReactPointerEvent } from "react";
+import type { MouseEvent as ReactMouseEvent } from "react";
 import { useRef, useState } from "react";
 import type { Testimonial } from "@/data/home";
 
@@ -12,8 +12,8 @@ type TestimonialsCarouselProps = {
 export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps) {
   const listRef = useRef<HTMLUListElement>(null);
   const [isDragging, setIsDragging] = useState(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeftStart, setScrollLeftStart] = useState(0);
 
   function moveByCard(direction: -1 | 1) {
     const list = listRef.current;
@@ -25,33 +25,48 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
     list.scrollBy({ left: direction * amount, behavior: "smooth" });
   }
 
-  function handleMouseDown(event: ReactPointerEvent<HTMLUListElement>) {
+  function handleMouseDown(e: ReactMouseEvent<HTMLUListElement>) {
     const list = listRef.current;
     if (!list) return;
     
     setIsDragging(true);
-    startX.current = event.pageX - list.offsetLeft;
-    scrollLeft.current = list.scrollLeft;
+    setStartX(e.pageX - list.offsetLeft);
+    setScrollLeftStart(list.scrollLeft);
+    
+    // Remove smooth scroll during drag
+    list.style.scrollBehavior = "auto";
   }
 
-  function handleMouseMove(event: ReactPointerEvent<HTMLUListElement>) {
+  function handleMouseMove(e: ReactMouseEvent<HTMLUListElement>) {
     if (!isDragging) return;
-    event.preventDefault();
+    e.preventDefault();
     
     const list = listRef.current;
     if (!list) return;
     
-    const x = event.pageX - list.offsetLeft;
-    const walk = (x - startX.current) * 2; // Multiply for faster scroll
-    list.scrollLeft = scrollLeft.current - walk;
+    const x = e.pageX - list.offsetLeft;
+    const walk = (x - startX) * 1.5; // Sensitivity multiplier
+    list.scrollLeft = scrollLeftStart - walk;
   }
 
   function handleMouseUp() {
     setIsDragging(false);
+    
+    // Re-enable smooth scroll
+    const list = listRef.current;
+    if (list) {
+      list.style.scrollBehavior = "smooth";
+    }
   }
 
   function handleMouseLeave() {
-    setIsDragging(false);
+    if (isDragging) {
+      setIsDragging(false);
+      const list = listRef.current;
+      if (list) {
+        list.style.scrollBehavior = "smooth";
+      }
+    }
   }
 
   return (
@@ -68,12 +83,15 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
       <ul
         ref={listRef}
         aria-label="Customer testimonials"
-        className={`-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-14 pb-5 sm:-mx-6 sm:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
+        className={`-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-14 pb-5 sm:-mx-6 sm:px-16 scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${isDragging ? "cursor-grabbing select-none snap-none" : "cursor-grab"}`}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseLeave}
         onDragStart={(e) => e.preventDefault()}
+        style={{ 
+          WebkitOverflowScrolling: 'touch',
+        }}
       >
         {testimonials.map((testimonial) => {
           const isFemale = testimonial.gender === "female";
@@ -87,8 +105,12 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
               key={testimonial.name}
               data-testimonial-card
               className="min-w-[min(82vw,390px)] snap-center sm:min-w-105 lg:min-w-115"
+              draggable="false"
             >
-              <figure className="relative flex min-h-105 flex-col overflow-hidden rounded-3xl border border-tab-border bg-white p-8 shadow-[0_20px_50px_-32px_rgba(5,0,56,0.6)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgba(5,0,56,0.45)] sm:p-10">
+              <figure 
+                className="relative flex min-h-105 flex-col overflow-hidden rounded-3xl border border-tab-border bg-white p-8 shadow-[0_20px_50px_-32px_rgba(5,0,56,0.6)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgba(5,0,56,0.45)] sm:p-10"
+                draggable="false"
+              >
                 <Quote aria-hidden className="absolute top-7 right-8 size-12 fill-primary/10 text-primary/20" strokeWidth={1.2} />
                 <blockquote className="relative max-w-100 text-center font-inter text-[19px] leading-7 text-navy/70">
                   "{testimonial.quote}"
@@ -100,6 +122,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
                     aria-label={testimonial.photo ? `${testimonial.name}'s photo` : avatarLabel}
                     className={`grid size-20 place-items-center rounded-full border-4 border-white bg-tab-active bg-cover bg-center text-primary ring-2 ring-primary/20 ${testimonial.photo ? "shadow-[0_8px_24px_-10px_rgba(0,132,84,0.7)]" : ""}`}
                     style={avatarStyle}
+                    draggable="false"
                   >
                     {!testimonial.photo ? <User aria-hidden className="size-9" strokeWidth={1.5} /> : null}
                   </span>
