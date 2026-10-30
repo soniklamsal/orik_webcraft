@@ -52,7 +52,7 @@ export const FALLBACK_CONTENT: SiteContent = {
     heading: "Built for businesses like yours.",
     linkLabel: "See all industries",
     linkHref: "/industries",
-    footnoteLabel: "Every demo we build is",
+    footnoteLabel: "Every ORIK website is:",
     footnoteItems: ["Mobile friendly", "Fast & modern", "Business focused"],
   },
   footerTop: {

@@ -33,7 +33,7 @@ function QualitiesCard({ hero, className = "" }: { hero: HeroContent; className?
   return (
     <div className={`flex h-15 w-full max-w-87.5 items-center rounded-[8px] bg-surface p-3.5 ${className}`}>
       <div className="flex w-[136.6px] shrink-0 flex-col gap-0.5">
-        <div className="flex h-3.75 gap-1.5 text-[#ff9d48]">
+        <div className="flex h-3.75 gap-1.5 text-primary">
           {cardIcons.map((Icon, index) => (
             <Icon key={index} aria-hidden className="size-3.75" strokeWidth={2.25} />
           ))}
