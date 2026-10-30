@@ -450,6 +450,8 @@ export type Testimonial = {
   quote: string;
   name: string;
   business: string;
+  /** Used by the fallback avatar until a real customer photo is available. */
+  gender?: "male" | "female";
 };
 
 export const testimonials: Testimonial[] = [];

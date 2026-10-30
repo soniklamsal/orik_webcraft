@@ -1,3 +1,4 @@
+import { Mars, Venus } from "lucide-react";
 import { requireContent } from "@/lib/content";
 
 export async function Testimonials() {
@@ -18,9 +19,17 @@ export async function Testimonials() {
           <li key={testimonial.name}>
             <figure className="flex flex-col p-9 xl:h-115">
               <blockquote className="text-[18px] leading-6 text-navy/60">“{testimonial.quote}”</blockquote>
-              <figcaption className="mt-10 flex flex-col text-[14px] leading-5 text-navy/60 xl:mt-auto">
-                <span>{testimonial.name}</span>
-                <span>{testimonial.business}</span>
+              <figcaption className="mt-10 flex items-center gap-4 text-[14px] leading-5 text-navy/60 xl:mt-auto">
+                <span
+                  aria-hidden="true"
+                  className="grid size-12 shrink-0 place-items-center rounded-full bg-tab-active text-primary"
+                >
+                  {testimonial.gender === "female" ? <Venus className="size-6" strokeWidth={1.8} /> : <Mars className="size-6" strokeWidth={1.8} />}
+                </span>
+                <span className="flex flex-col">
+                  <span className="font-inter font-semibold text-navy">{testimonial.name}</span>
+                  <span>{testimonial.business}</span>
+                </span>
               </figcaption>
             </figure>
           </li>
