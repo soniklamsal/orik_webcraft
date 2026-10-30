@@ -115,6 +115,14 @@ function normalizeRows<T extends object>(value: unknown, fallback: T[]): T[] {
   });
 }
 
+/** Keep the full six-card metrics row even when the API only has older stats. */
+function normalizeStats(value: unknown): Stat[] {
+  const rows = normalizeRows(value, FALLBACK_CONTENT.stats);
+  const existingLabels = new Set(rows.map((stat) => stat.label));
+  const missingDefaults = FALLBACK_CONTENT.stats.filter((stat) => !existingLabels.has(stat.label));
+  return [...rows, ...missingDefaults];
+}
+
 function normalizeMockupRows<T extends { theme: MockupTheme }>(value: unknown, fallback: T[]): T[] {
   return normalizeRows(value, fallback).map((row) => {
     const record = row as T & { template?: unknown };
@@ -175,7 +183,7 @@ function shape(data: unknown): SiteContent {
         FALLBACK_CONTENT.footerBottom.menu,
       ),
     },
-    stats: normalizeRows(data.stats, FALLBACK_CONTENT.stats),
+    stats: normalizeStats(data.stats),
     problems: normalizeRows(data.problems, FALLBACK_CONTENT.problems),
     industries: normalizeMockupRows(data.industries, FALLBACK_CONTENT.industries),
     projects: normalizeMockupRows(data.projects, FALLBACK_CONTENT.projects),
