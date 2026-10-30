@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, GripHorizontal, Mars, Quote, Venus } from "lucide-react";
+import { ChevronLeft, ChevronRight, GripHorizontal, Quote, User } from "lucide-react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { useRef, useState } from "react";
 import type { Testimonial } from "@/data/home";
@@ -37,6 +37,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
     };
     setIsDragging(true);
     list.setPointerCapture(event.pointerId);
+    event.preventDefault();
   }
 
   function handlePointerMove(event: ReactPointerEvent<HTMLUListElement>) {
@@ -44,7 +45,8 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
     if (!list || !dragState.current.active) return;
 
     event.preventDefault();
-    list.scrollLeft = dragState.current.startScroll - (event.clientX - dragState.current.startX);
+    const deltaX = event.clientX - dragState.current.startX;
+    list.scrollLeft = dragState.current.startScroll - deltaX;
   }
 
   function stopDragging(event: ReactPointerEvent<HTMLUListElement>) {
@@ -69,7 +71,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
       <ul
         ref={listRef}
         aria-label="Customer testimonials"
-        className={`-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-14 pb-5 sm:-mx-6 sm:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
+        className={`-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-14 pb-5 sm:-mx-6 sm:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={stopDragging}
@@ -77,11 +79,11 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
         onPointerLeave={(event) => {
           if (dragState.current.active) stopDragging(event);
         }}
+        style={{ touchAction: "pan-y pinch-zoom" }}
       >
         {testimonials.map((testimonial) => {
           const isFemale = testimonial.gender === "female";
-          const GenderIcon = isFemale ? Venus : Mars;
-          const avatarLabel = isFemale ? "Female customer avatar" : "Male customer avatar";
+          const avatarLabel = isFemale ? "Female customer" : "Male customer";
           const avatarStyle = testimonial.photo
             ? { backgroundImage: `url(${JSON.stringify(testimonial.photo)})` }
             : undefined;
@@ -95,7 +97,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
               <figure className="relative flex min-h-105 flex-col overflow-hidden rounded-3xl border border-tab-border bg-white p-8 shadow-[0_20px_50px_-32px_rgba(5,0,56,0.6)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgba(5,0,56,0.45)] sm:p-10">
                 <Quote aria-hidden className="absolute top-7 right-8 size-12 fill-primary/10 text-primary/20" strokeWidth={1.2} />
                 <blockquote className="relative max-w-100 text-center font-inter text-[19px] leading-7 text-navy/70">
-                  “{testimonial.quote}”
+                  "{testimonial.quote}"
                 </blockquote>
 
                 <div className="mt-8 flex justify-center">
@@ -105,7 +107,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
                     className={`grid size-20 place-items-center rounded-full border-4 border-white bg-tab-active bg-cover bg-center text-primary ring-2 ring-primary/20 ${testimonial.photo ? "shadow-[0_8px_24px_-10px_rgba(0,132,84,0.7)]" : ""}`}
                     style={avatarStyle}
                   >
-                    {!testimonial.photo ? <GenderIcon aria-hidden className="size-9" strokeWidth={1.5} /> : null}
+                    {!testimonial.photo ? <User aria-hidden className="size-9" strokeWidth={1.5} /> : null}
                   </span>
                 </div>
 
