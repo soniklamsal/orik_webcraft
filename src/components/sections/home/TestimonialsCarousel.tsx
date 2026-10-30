@@ -11,8 +11,9 @@ type TestimonialsCarouselProps = {
 
 export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps) {
   const listRef = useRef<HTMLUListElement>(null);
-  const dragState = useRef({ active: false, startX: 0, startScroll: 0 });
   const [isDragging, setIsDragging] = useState(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
 
   function moveByCard(direction: -1 | 1) {
     const list = listRef.current;
@@ -24,37 +25,33 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
     list.scrollBy({ left: direction * amount, behavior: "smooth" });
   }
 
-  function handlePointerDown(event: ReactPointerEvent<HTMLUListElement>) {
-    if (event.pointerType === "mouse" && event.button !== 0) return;
-
+  function handleMouseDown(event: ReactPointerEvent<HTMLUListElement>) {
     const list = listRef.current;
     if (!list) return;
-
-    dragState.current = {
-      active: true,
-      startX: event.clientX,
-      startScroll: list.scrollLeft,
-    };
+    
     setIsDragging(true);
-    list.setPointerCapture(event.pointerId);
-    event.preventDefault();
+    startX.current = event.pageX - list.offsetLeft;
+    scrollLeft.current = list.scrollLeft;
   }
 
-  function handlePointerMove(event: ReactPointerEvent<HTMLUListElement>) {
+  function handleMouseMove(event: ReactPointerEvent<HTMLUListElement>) {
+    if (!isDragging) return;
+    event.preventDefault();
+    
     const list = listRef.current;
-    if (!list || !dragState.current.active) return;
-
-    event.preventDefault();
-    const deltaX = event.clientX - dragState.current.startX;
-    list.scrollLeft = dragState.current.startScroll - deltaX;
+    if (!list) return;
+    
+    const x = event.pageX - list.offsetLeft;
+    const walk = (x - startX.current) * 2; // Multiply for faster scroll
+    list.scrollLeft = scrollLeft.current - walk;
   }
 
-  function stopDragging(event: ReactPointerEvent<HTMLUListElement>) {
-    dragState.current.active = false;
+  function handleMouseUp() {
     setIsDragging(false);
-    if (listRef.current?.hasPointerCapture(event.pointerId)) {
-      listRef.current.releasePointerCapture(event.pointerId);
-    }
+  }
+
+  function handleMouseLeave() {
+    setIsDragging(false);
   }
 
   return (
@@ -72,14 +69,11 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
         ref={listRef}
         aria-label="Customer testimonials"
         className={`-mx-4 flex snap-x snap-mandatory gap-5 overflow-x-auto px-14 pb-5 sm:-mx-6 sm:px-16 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${isDragging ? "cursor-grabbing select-none" : "cursor-grab"}`}
-        onPointerDown={handlePointerDown}
-        onPointerMove={handlePointerMove}
-        onPointerUp={stopDragging}
-        onPointerCancel={stopDragging}
-        onPointerLeave={(event) => {
-          if (dragState.current.active) stopDragging(event);
-        }}
-        style={{ touchAction: "pan-y pinch-zoom" }}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseLeave}
+        onDragStart={(e) => e.preventDefault()}
       >
         {testimonials.map((testimonial) => {
           const isFemale = testimonial.gender === "female";
