@@ -156,6 +156,24 @@ export const FALLBACK_CONTENT: SiteContent = {
       business: "Service business owner",
       gender: "male",
     },
+    {
+      quote: "They took the time to understand our goals and turned them into a website our customers can use easily.",
+      name: "Sita Adhikari",
+      business: "Education consultant",
+      gender: "female",
+    },
+    {
+      quote: "Our new pages load quickly, look great on mobile and make it much easier to share our services.",
+      name: "Bikash Rai",
+      business: "Travel business owner",
+      gender: "male",
+    },
+    {
+      quote: "The site gives our brand a clear first impression and helps enquiries reach us without extra steps.",
+      name: "Priya Karki",
+      business: "Retail founder",
+      gender: "female",
+    },
   ],
   faqs: defaultFaqs,
 };

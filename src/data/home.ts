@@ -452,6 +452,8 @@ export type Testimonial = {
   business: string;
   /** Used by the fallback avatar until a real customer photo is available. */
   gender?: "male" | "female";
+  /** Optional customer photo; the gender icon remains the placeholder until one is added. */
+  photo?: string;
 };
 
 export const testimonials: Testimonial[] = [];
