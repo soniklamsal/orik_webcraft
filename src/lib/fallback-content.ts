@@ -6,6 +6,15 @@
  */
 
 import type { SiteContent } from "./content";
+import {
+  faqs as defaultFaqs,
+  hero as defaultHero,
+  industries as defaultIndustries,
+  packages as defaultPackages,
+  processSteps as defaultProcessSteps,
+  problems as defaultProblems,
+  projects as defaultProjects,
+} from "@/data/home";
 
 export const FALLBACK_CONTENT: SiteContent = {
   site: {
@@ -24,11 +33,8 @@ export const FALLBACK_CONTENT: SiteContent = {
     ],
   },
   hero: {
+    ...defaultHero,
     heading: "Website design that works for your business.",
-    subheading: "Modern websites, landing pages, chatbots and digital solutions designed to help businesses build credibility, reach customers and generate enquiries.",
-    qualitiesLabel: "Every ORIK website is:",
-    qualities: ["Mobile", "Fast", "Modern"],
-    badges: [],
   },
   yourIdea: {
     heading: "Your business deserves more\nthan just a social media page.",
@@ -46,8 +52,8 @@ export const FALLBACK_CONTENT: SiteContent = {
     heading: "Built for businesses like yours.",
     linkLabel: "See all industries",
     linkHref: "/industries",
-    footnoteLabel: "Industries",
-    footnoteItems: [],
+    footnoteLabel: "Every demo we build is",
+    footnoteItems: ["Mobile friendly", "Fast & modern", "Business focused"],
   },
   footerTop: {
     left: {
@@ -64,7 +70,14 @@ export const FALLBACK_CONTENT: SiteContent = {
   },
   footerBottom: {
     menuLabel: "Menu",
-    menu: [],
+    menu: [
+      { label: "Home", href: "/" },
+      { label: "Industries", href: "/industries" },
+      { label: "Our work", href: "/work" },
+      { label: "Pricing", href: "/pricing" },
+      { label: "FAQs", href: "/faq" },
+      { label: "Contact", href: "/contact" },
+    ],
     contactLabel: "Contact",
     enquiryLabel: "Send enquiry",
     enquiryHref: "/contact",
@@ -75,16 +88,11 @@ export const FALLBACK_CONTENT: SiteContent = {
     { label: "Happy Clients", value: "40+" },
     { label: "Years Experience", value: "3+" },
   ],
-  problems: [],
-  industries: [],
-  projects: [],
-  processSteps: [
-    { title: "Consultation", description: "Understand your needs and goals" },
-    { title: "Design", description: "Create mockups and prototypes" },
-    { title: "Development", description: "Build your website" },
-    { title: "Launch", description: "Deploy and go live" },
-  ],
-  packages: [],
+  problems: defaultProblems,
+  industries: defaultIndustries,
+  projects: defaultProjects,
+  processSteps: defaultProcessSteps,
+  packages: defaultPackages,
   team: [
     {
       name: "Rohan Shah",
@@ -126,19 +134,22 @@ export const FALLBACK_CONTENT: SiteContent = {
       ],
     },
   ],
-  testimonials: [],
-  faqs: [
+  testimonials: [
     {
-      question: "How long does it take to build a website?",
-      answer: "It depends on the package and how quickly your content is ready. A one-page website is faster than a multi-page site, and we'll give you a clear timeline after the free consultation.",
+      quote: "ORIK made our business look professional online and gave customers an easy way to reach us.",
+      name: "Aarav Sharma",
+      business: "Local business owner",
     },
     {
-      question: "Do you offer website maintenance?",
-      answer: "Yes, we provide ongoing maintenance and support packages to keep your website updated and secure.",
+      quote: "The process was clear from the first call. We had a fast, mobile-friendly website ready to share.",
+      name: "Maya Gurung",
+      business: "Consultancy founder",
     },
     {
-      question: "Can you help with SEO?",
-      answer: "Absolutely! All our websites are built with SEO best practices, and we offer additional SEO services to improve your search rankings.",
+      quote: "The new site explains what we do quickly and brings our enquiries into one place.",
+      name: "Nabin Thapa",
+      business: "Service business owner",
     },
   ],
+  faqs: defaultFaqs,
 };

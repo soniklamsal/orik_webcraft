@@ -55,8 +55,12 @@ export function TeamContent() {
 
         const data = await response.json();
 
-        if (data.team && Array.isArray(data.team)) {
+        // An empty team array is just as unusable as an unavailable backend:
+        // keep the public team page populated with the bundled profiles.
+        if (data.team && Array.isArray(data.team) && data.team.length > 0) {
           setTeamMembers(data.team);
+        } else {
+          throw new Error('API returned no team members');
         }
       } catch (error) {
         console.warn('Backend unavailable, using fallback team data:', error);

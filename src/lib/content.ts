@@ -5,6 +5,7 @@
  * the site remains functional. A warning is logged to the console.
  */
 
+import { cache } from "react";
 import { FALLBACK_CONTENT } from "./fallback-content";
 import type {
   DigitalExperiences,
@@ -63,9 +64,6 @@ export type ContentError = {
   endpoint: string;
 };
 
-type ApiIndustry = Omit<Industry, "theme"> & { template?: MockupTheme | null };
-type ApiProject = Omit<Project, "theme"> & { template?: MockupTheme | null };
-
 /** A row with no template selected still has to render something. */
 const PLACEHOLDER_THEME: MockupTheme = {
   name: "Demo",
@@ -80,16 +78,112 @@ const PLACEHOLDER_THEME: MockupTheme = {
   soft: "#f0f8f5",
 };
 
-function shape(data: Record<string, unknown>): SiteContent {
-  const withTheme = <T extends { template?: MockupTheme | null }>(row: T) => {
-    const { template, ...rest } = row;
-    return { ...rest, theme: template ?? PLACEHOLDER_THEME };
-  };
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
+}
+
+/** Merge API fields without allowing null/undefined values to erase defaults. */
+function mergeDefined<T>(fallback: T, value: unknown): T {
+  if (!isRecord(value)) return fallback;
+
+  const defined = Object.fromEntries(Object.entries(value).filter(([, item]) => item !== null && item !== undefined));
+  return { ...fallback, ...defined } as T;
+}
+
+function arrayOrFallback<T>(value: unknown, fallback: T[]): T[] {
+  return Array.isArray(value) && value.length > 0 ? (value as T[]) : fallback;
+}
+
+function identity(value: unknown): string | undefined {
+  if (!isRecord(value)) return undefined;
+  const name = value.name ?? value.title;
+  return typeof name === "string" ? name : undefined;
+}
+
+/** Keep valid API rows, filling omitted fields from the matching local row. */
+function normalizeRows<T extends object>(value: unknown, fallback: T[]): T[] {
+  const source = arrayOrFallback(value, fallback);
+
+  return source.map((item, index) => {
+    const key = identity(item);
+    const base =
+      (key ? fallback.find((candidate) => identity(candidate) === key) : undefined) ??
+      fallback[index] ??
+      fallback[0];
+
+    return mergeDefined(base, item);
+  });
+}
+
+function normalizeMockupRows<T extends { theme: MockupTheme }>(value: unknown, fallback: T[]): T[] {
+  return normalizeRows(value, fallback).map((row) => {
+    const record = row as T & { template?: unknown };
+    const template = isRecord(record.template)
+      ? record.template
+      : isRecord(record.theme)
+        ? record.theme
+        : undefined;
+
+    return {
+      ...row,
+      theme: mergeDefined(row.theme ?? PLACEHOLDER_THEME, template),
+    };
+  });
+}
+
+function shape(data: unknown): SiteContent {
+  if (!isRecord(data)) throw new Error("The content service returned an invalid payload.");
+
+  const site = mergeDefined(FALLBACK_CONTENT.site, data.site);
+  const siteRecord = isRecord(data.site) ? data.site : {};
+  const hero = mergeDefined(FALLBACK_CONTENT.hero, data.hero);
+  const heroRecord = isRecord(data.hero) ? data.hero : {};
+  const industriesSection = mergeDefined(FALLBACK_CONTENT.industriesSection, data.industriesSection);
+  const footerTop = mergeDefined(FALLBACK_CONTENT.footerTop, data.footerTop);
+  const footerTopRecord = isRecord(data.footerTop) ? data.footerTop : {};
+  const footerBottom = mergeDefined(FALLBACK_CONTENT.footerBottom, data.footerBottom);
 
   return {
-    ...(data as unknown as SiteContent),
-    industries: ((data.industries ?? []) as ApiIndustry[]).map(withTheme) as Industry[],
-    projects: ((data.projects ?? []) as ApiProject[]).map(withTheme) as Project[],
+    site: {
+      ...site,
+      contact: mergeDefined(FALLBACK_CONTENT.site.contact, siteRecord.contact),
+      socials: arrayOrFallback(siteRecord.socials, FALLBACK_CONTENT.site.socials),
+    },
+    hero: {
+      ...hero,
+      qualities: arrayOrFallback(heroRecord.qualities, FALLBACK_CONTENT.hero.qualities),
+      badges: arrayOrFallback(heroRecord.badges, FALLBACK_CONTENT.hero.badges),
+    },
+    yourIdea: mergeDefined(FALLBACK_CONTENT.yourIdea, data.yourIdea),
+    digitalExperiences: mergeDefined(FALLBACK_CONTENT.digitalExperiences, data.digitalExperiences),
+    industriesSection: {
+      ...industriesSection,
+      footnoteItems: arrayOrFallback(
+        isRecord(data.industriesSection) ? data.industriesSection.footnoteItems : undefined,
+        FALLBACK_CONTENT.industriesSection.footnoteItems,
+      ),
+    },
+    footerTop: {
+      ...footerTop,
+      left: mergeDefined(FALLBACK_CONTENT.footerTop.left, footerTopRecord.left),
+      right: mergeDefined(FALLBACK_CONTENT.footerTop.right, footerTopRecord.right),
+    },
+    footerBottom: {
+      ...footerBottom,
+      menu: arrayOrFallback(
+        isRecord(data.footerBottom) ? data.footerBottom.menu : undefined,
+        FALLBACK_CONTENT.footerBottom.menu,
+      ),
+    },
+    stats: normalizeRows(data.stats, FALLBACK_CONTENT.stats),
+    problems: normalizeRows(data.problems, FALLBACK_CONTENT.problems),
+    industries: normalizeMockupRows(data.industries, FALLBACK_CONTENT.industries),
+    projects: normalizeMockupRows(data.projects, FALLBACK_CONTENT.projects),
+    processSteps: normalizeRows(data.processSteps, FALLBACK_CONTENT.processSteps),
+    packages: normalizeRows(data.packages, FALLBACK_CONTENT.packages),
+    team: normalizeRows(data.team, FALLBACK_CONTENT.team),
+    testimonials: normalizeRows(data.testimonials, FALLBACK_CONTENT.testimonials),
+    faqs: normalizeRows(data.faqs, FALLBACK_CONTENT.faqs),
   };
 }
 
@@ -128,7 +222,7 @@ function describe(error: unknown): ContentError {
   };
 }
 
-export async function getContent(): Promise<ContentResult> {
+async function loadContent(): Promise<ContentResult> {
   try {
     const response = await fetch(CONTENT_ENDPOINT, {
       // Always live: an edit in the admin shows on the next page load.
@@ -150,10 +244,15 @@ export async function getContent(): Promise<ContentResult> {
       `Using fallback content. ${described.detail}`
     );
     
-    // Return fallback content instead of failing
+    // Return fallback content instead of failing. Every section can therefore
+    // render even when the backend is asleep, unavailable, or malformed.
     return { content: FALLBACK_CONTENT, error: null };
   }
 }
+
+// All homepage sections request the same content. React cache deduplicates
+// those calls for one render, so sections cannot disagree about the source.
+export const getContent = cache(loadContent);
 
 /**
  * For sections, which only render once their page has confirmed the API is
@@ -162,6 +261,5 @@ export async function getContent(): Promise<ContentResult> {
  */
 export async function requireContent(): Promise<SiteContent> {
   const { content } = await getContent();
-  // Content is always available now (either from API or fallback)
-  return content!;
+  return content ?? FALLBACK_CONTENT;
 }
