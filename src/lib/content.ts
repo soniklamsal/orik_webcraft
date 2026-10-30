@@ -49,8 +49,8 @@ export type SiteContent = {
 export const API_URL = (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8001").replace(/\/$/, "");
 export const CONTENT_ENDPOINT = `${API_URL}/api/content/`;
 
-/** Long enough for a sleeping free-tier backend to wake, short enough to fail visibly. */
-const TIMEOUT_MS = 45_000;
+/** Keep a sleeping backend from holding the whole page open before fallback renders. */
+const TIMEOUT_MS = 10_000;
 
 export type ContentResult =
   | { content: SiteContent; error: null }
