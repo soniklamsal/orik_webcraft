@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronLeft, ChevronRight, GripHorizontal, Mars, Quote, Venus } from "lucide-react";
+import { ChevronLeft, ChevronRight, GripHorizontal, Quote, User } from "lucide-react";
 import type { PointerEvent as ReactPointerEvent } from "react";
 import { useRef, useState } from "react";
 import type { Testimonial } from "@/data/home";
@@ -84,9 +84,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
         }}
       >
         {testimonials.map((testimonial) => {
-          const isFemale = testimonial.gender === "female";
-          const GenderIcon = isFemale ? Venus : Mars;
-          const avatarLabel = isFemale ? "Female customer" : "Male customer";
+          const avatarLabel = "Customer profile";
           const avatarStyle = testimonial.photo
             ? { backgroundImage: `url(${JSON.stringify(testimonial.photo)})` }
             : undefined;
@@ -115,7 +113,7 @@ export function TestimonialsCarousel({ testimonials }: TestimonialsCarouselProps
                     style={avatarStyle}
                     draggable="false"
                   >
-                    {!testimonial.photo ? <GenderIcon aria-hidden className="size-9" strokeWidth={1.5} /> : null}
+                    {!testimonial.photo ? <User aria-hidden className="size-9" strokeWidth={1.5} /> : null}
                   </span>
                 </div>
 
