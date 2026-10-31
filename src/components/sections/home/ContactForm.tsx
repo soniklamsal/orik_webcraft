@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, type ComponentProps, type FormEvent } from "react";
 import { Button } from "@/components/ui/Button";
@@ -7,8 +7,6 @@ import type { WebsitePackage } from "@/data/home";
 const labelClass = "block text-[14px] leading-5 text-navy/70";
 const controlClass =
   "mt-2 w-full border-b border-input-border bg-transparent text-[18px] text-navy outline-none transition-colors placeholder:text-placeholder focus:border-primary";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8001";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
@@ -32,11 +30,16 @@ export function ContactForm({ packages }: { packages: WebsitePackage[] }) {
     setError(null);
 
     try {
-      const response = await fetch(`${API_URL}/api/enquiries/`, {
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        body: JSON.stringify(data),
       });
+
+      const result = await response.json();
 
       if (response.ok) {
         form.reset();
@@ -44,15 +47,15 @@ export function ContactForm({ packages }: { packages: WebsitePackage[] }) {
         return;
       }
 
-      // 429 is the per-IP rate limit; anything else is a validation problem.
+      // Handle different error cases
       setError(
         response.status === 429
           ? "You've sent a few enquiries already. Please try again later, or email us directly."
-          : "Please check your details and try again.",
+          : result.error || "Please check your details and try again.",
       );
       setStatus("error");
     } catch {
-      setError("We couldn't reach the server. Please check your connection and try again.");
+      setError("We couldn't send your enquiry. Please check your connection and try again, or email us directly.");
       setStatus("error");
     }
   }
