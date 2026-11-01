@@ -104,7 +104,7 @@ export function ContactForm({ packages }: { packages: WebsitePackage[] }) {
       </Button>
 
       <p role="status" aria-live="polite" className="mt-5 text-[15px] leading-6 text-navy/70">
-        {status === "sent" && "Thanks! Your enquiry is with us — we'll get back to you shortly."}
+        {status === "sent" && "Thanks! Your enquiry is with us - we'll get back to you shortly."}
         {status === "error" && error}
       </p>
     </form>
