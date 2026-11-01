@@ -28,7 +28,7 @@ export const FALLBACK_CONTENT: SiteContent = {
     socials: [
       { platform: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/company/orik-webcraft" },
       { platform: "facebook", label: "Facebook", href: "https://www.facebook.com/orikwebcraft" },
-      { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/orikwebcraft" },
+      { platform: "instagram", label: "Instagram", href: "https://www.instagram.com/orik_webcraft" },
       { platform: "whatsapp", label: "WhatsApp", href: "https://wa.me/9779842416371" },
     ],
   },
