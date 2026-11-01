@@ -101,6 +101,8 @@ export async function POST(request: NextRequest) {
       timeStyle: "long"
     });
 
+    const phoneClean = phone.replace(/[^0-9]/g, "");
+
     const mailOptions = {
       from: `"ORIK Webcraft" <${EMAIL_CONFIG.user}>`,
       to: EMAIL_CONFIG.notificationEmail,
@@ -123,67 +125,173 @@ Submitted: ${timestamp}
 IP: ${clientIP}
       `.trim(),
       html: `
-<!DOCTYPE html>
-<html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <style>
-    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0; }
-    .container { max-width: 600px; margin: 20px auto; }
-    .header { background: linear-gradient(135deg, #008454 0%, #00683e 100%); color: white; padding: 30px 20px; text-align: center; }
-    .header h1 { margin: 0; font-size: 24px; }
-    .content { background: #ffffff; padding: 30px; border: 1px solid #e0e0e0; }
-    .field { margin: 20px 0; padding: 15px; background: #f5f5f7; border-left: 4px solid #008454; }
-    .label { font-weight: bold; color: #008454; font-size: 14px; text-transform: uppercase; margin-bottom: 5px; }
-    .value { font-size: 16px; color: #050038; }
-    .value a { color: #008454; text-decoration: none; }
-    .footer { margin-top: 30px; padding-top: 20px; border-top: 2px solid #e0e0e0; font-size: 12px; color: #666; text-align: center; }
-    .cta { display: inline-block; margin: 10px 5px; padding: 10px 20px; background: #008454; color: white; text-decoration: none; border-radius: 5px; }
-  </style>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>New Enquiry - ORIK Webcraft</title>
 </head>
-<body>
-  <div class="container">
-    <div class="header">
-      <h1>🎉 New Contact Form Submission</h1>
-      <p style="margin: 10px 0 0 0;">You have a new enquiry from your website!</p>
-    </div>
-    <div class="content">
-      <div class="field">
-        <div class="label">Name</div>
-        <div class="value">${name}</div>
-      </div>
-      <div class="field">
-        <div class="label">Business</div>
-        <div class="value">${business}</div>
-      </div>
-      <div class="field">
-        <div class="label">Email</div>
-        <div class="value"><a href="mailto:${email}">${email}</a></div>
-      </div>
-      <div class="field">
-        <div class="label">Phone / WhatsApp</div>
-        <div class="value"><a href="tel:${phone}">${phone}</a></div>
-      </div>
-      <div class="field">
-        <div class="label">Package</div>
-        <div class="value">${pkg || "Not specified"}</div>
-      </div>
-      <div class="field">
-        <div class="label">Message</div>
-        <div class="value">${message || "No message provided"}</div>
-      </div>
-      
-      <div style="text-align: center; margin-top: 30px;">
-        <a href="mailto:${email}" class="cta">📧 Reply</a>
-        <a href="https://wa.me/${phone.replace(/[^0-9]/g, "")}" class="cta">💬 WhatsApp</a>
-        <a href="tel:${phone}" class="cta">📞 Call</a>
-      </div>
+<body style="margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background-color: #f4f4f4;">
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f4f4f4; padding: 40px 0;">
+    <tr>
+      <td align="center">
+        <!-- Main Container -->
+        <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
+          
+          <!-- Header -->
+          <tr>
+            <td style="background: linear-gradient(135deg, #008454 0%, #00683e 100%); padding: 40px 30px; text-align: center;">
+              <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 600; letter-spacing: -0.5px;">
+                🎉 New Contact Form Submission
+              </h1>
+              <p style="margin: 15px 0 0 0; color: rgba(255,255,255,0.9); font-size: 16px; line-height: 1.5;">
+                You have a new enquiry from your website!
+              </p>
+            </td>
+          </tr>
 
-      <div class="footer">
-        <strong>Submitted:</strong> ${timestamp}<br>
-        <strong>IP:</strong> ${clientIP}
-      </div>
-    </div>
-  </div>
+          <!-- Content -->
+          <tr>
+            <td style="padding: 40px 30px;">
+              
+              <!-- Name -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 20px; background-color: #f8f9fa; border-left: 4px solid #008454; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 8px 0; color: #008454; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                      👤 NAME
+                    </p>
+                    <p style="margin: 0; color: #050038; font-size: 18px; font-weight: 500; line-height: 1.4;">
+                      ${name}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Business -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 20px; background-color: #f8f9fa; border-left: 4px solid #008454; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 8px 0; color: #008454; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                      🏢 BUSINESS
+                    </p>
+                    <p style="margin: 0; color: #050038; font-size: 18px; font-weight: 500; line-height: 1.4;">
+                      ${business}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Email -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 20px; background-color: #f8f9fa; border-left: 4px solid #008454; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 8px 0; color: #008454; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                      ✉️ EMAIL
+                    </p>
+                    <p style="margin: 0; color: #050038; font-size: 18px; font-weight: 500; line-height: 1.4;">
+                      <a href="mailto:${email}" style="color: #008454; text-decoration: none; border-bottom: 2px solid #008454;">${email}</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Phone -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 20px; background-color: #f8f9fa; border-left: 4px solid #008454; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 8px 0; color: #008454; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                      📱 PHONE / WHATSAPP
+                    </p>
+                    <p style="margin: 0; color: #050038; font-size: 18px; font-weight: 500; line-height: 1.4;">
+                      <a href="tel:${phone}" style="color: #008454; text-decoration: none; border-bottom: 2px solid #008454;">${phone}</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Package -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 20px; background-color: #f8f9fa; border-left: 4px solid #008454; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 8px 0; color: #008454; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                      📦 PACKAGE
+                    </p>
+                    <p style="margin: 0; color: #050038; font-size: 18px; font-weight: 500; line-height: 1.4;">
+                      ${pkg || "Not specified"}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Message -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 30px; background-color: #f8f9fa; border-left: 4px solid #008454; border-radius: 6px;">
+                <tr>
+                  <td style="padding: 20px;">
+                    <p style="margin: 0 0 8px 0; color: #008454; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;">
+                      💬 MESSAGE
+                    </p>
+                    <p style="margin: 0; color: #050038; font-size: 16px; line-height: 1.6; white-space: pre-wrap;">
+                      ${message || "No message provided"}
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- CTA Buttons -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-top: 30px;">
+                <tr>
+                  <td align="center" style="padding: 20px 0;">
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td style="padding: 0 10px;">
+                          <a href="mailto:${email}" style="display: inline-block; padding: 14px 28px; background-color: #008454; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(0,132,84,0.3);">
+                            📧 Reply via Email
+                          </a>
+                        </td>
+                        <td style="padding: 0 10px;">
+                          <a href="https://wa.me/${phoneClean}" style="display: inline-block; padding: 14px 28px; background-color: #25D366; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(37,211,102,0.3);">
+                            💬 WhatsApp
+                          </a>
+                        </td>
+                        <td style="padding: 0 10px;">
+                          <a href="tel:${phone}" style="display: inline-block; padding: 14px 28px; background-color: #0066cc; color: #ffffff; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; box-shadow: 0 4px 12px rgba(0,102,204,0.3);">
+                            📞 Call
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding: 30px; background-color: #f8f9fa; border-top: 2px solid #e0e0e0;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                <tr>
+                  <td align="center">
+                    <p style="margin: 0 0 10px 0; color: #666666; font-size: 13px; line-height: 1.6;">
+                      <strong style="color: #008454;">Submitted:</strong> ${timestamp}
+                    </p>
+                    <p style="margin: 0; color: #999999; font-size: 12px;">
+                      IP Address: ${clientIP} • Source: ORIK Webcraft Website
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+        <!-- End Main Container -->
+      </td>
+    </tr>
+  </table>
 </body>
 </html>
       `.trim(),
